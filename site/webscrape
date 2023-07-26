@@ -1,0 +1,7 @@
+#!/bin/bash
+
+while IFS= read -r url; do
+    filename=$(basename "$url")
+    wget -q --no-check-certificate -O "$filename.html" "$url"
+done < ../url-biblia.txt
+
