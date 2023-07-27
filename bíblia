@@ -3,9 +3,9 @@
 books=("Fyrsta Mósebók" "Onnur Mósebók" "Triðja Mósebók" "Fjórða Mósebók" "Fimta Mósebók" "Jósvabók" "Dómarabókin" "Rutarbók" "Fyrra Sámuelsbók" "Seinna Sámuelsbók" "Fyrra Kongabók" "Seinna Kongabók" "Fyrra Krýnikubók" "Seinna Krýnikubók" "Ezra" "Nehemia" "Esterarbók" "Jobsbók" "Sálmarnir" "Orðtøk Sálomons" "Prædikarin" "Hásongurin" "Jesaja" "Jeremia" "Harmljóðini" "Ezekiel" "Dánjal" "Hósea" "Jóel" "Ámos" "Óbadia" "Jónas" "Mika" "Náhum" "Hábakkuk" "Sefanja" "Haggai" "Zakarja" "Málaki" "Evangeliið eftir Matteus" "Evangeliið eftir Markus" "Evangeliið eftir Lukas" "Evangeliið eftir Jóhannes" "Ápostlasøgan" "Bræv Paulusar ápostuls til Rómverja" "Fyrra bræv Paulusar ápostuls til Korintmanna" "Seinna bræv Paulusar ápostuls til Korintmanna" "Bræv Paulusar ápostuls til Galatamanna" "Bræv Paulusar ápostuls til Efesusmanna" "Bræv Paulusar ápostuls til Filippimanna" "Bræv Paulusar ápostuls til Kolossumanna" "Fyrra bræv Paulusar ápostuls til Tessalónikumanna" "Seinna bræv Paulusar ápostuls til Tessalónikumanna" "Fyrra bræv Paulusar ápostuls til Timoteusar" "Seinna bræv Paulusar ápostuls til Timoteusar" "Bræv Paulusar ápostuls til Titusar" "Bræv Paulusar ápostuls til Filemons" "Brævið til Hebreara" "Hitt almenna bræv Jákups" "Hitt fyrra almenna bræv Pæturs" "Hitt seinna almenna bræv Pæturs" "Hitt fyrsta almenna bræv Jóhannesar" "Annað bræv Jóhannesar" "Triðja bræv Jóhannesar" "Hitt almenna bræv Judasar" "Jóhannesar opinbering")
 
 if [ $# -eq 0 ] ; then 
-  echo "Brúksháttur: $0 les Guds ord" >&2 
+  echo "Brúksháttur: $0 les Guðs orð" >&2 
   echo "Dømir:" >&2 
-  echo "Evangeliið eftir Markusi, Kap 3" >&2 
+  echo "Evangeliið eftir Markus, Kap 3" >&2 
   echo "    bíblia mark 3" >&2 
   echo "Evangeliið eftir Matteus, Kap 3, Vers 16:" >&2 
   echo "    bíblia matt 3 16" >&2 
@@ -63,11 +63,11 @@ fi
 
 # Use awk to extract the text for the given chapter and verse from the output.txt file
 if [ $# -eq 4 ] ; then
-  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="v$verse" -v vrs2="v$verse2" '$1 == book && $2 == chap && $3 >= vrs1 && $3 <= vrs2 {print $3" "$4'\n'}' output.txt
+  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="v$verse" -v vrs2="v$verse2" '$1 == book && $2 == chap && $3 >= vrs1 && $3 <= vrs2 {print $3" "$4'\n'}' biblia.txt
 fi
 if [ $# -eq 3 ] ; then
-  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $2 == chap && $3 == vrs {print $4}' output.txt
+  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $2 == chap && $3 == vrs {print $4}' biblia.txt
 fi
 if [ $# -eq 2 ] ; then
-  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '$1 == book && $2 == chap {print $3" "$4'\n'}' output.txt
+  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '$1 == book && $2 == chap {print $3" "$4'\n'}' biblia.txt
 fi
