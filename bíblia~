@@ -2,10 +2,24 @@
 
 books=("Fyrsta Mósebók" "Onnur Mósebók" "Triðja Mósebók" "Fjórða Mósebók" "Fimta Mósebók" "Jósvabók" "Dómarabókin" "Rutarbók" "Fyrra Sámuelsbók" "Seinna Sámuelsbók" "Fyrra Kongabók" "Seinna Kongabók" "Fyrra Krýnikubók" "Seinna Krýnikubók" "Ezra" "Nehemia" "Esterarbók" "Jobsbók" "Sálmarnir" "Orðtøk Sálomons" "Prædikarin" "Hásongurin" "Jesaja" "Jeremia" "Harmljóðini" "Ezekiel" "Dánjal" "Hósea" "Jóel" "Ámos" "Óbadia" "Jónas" "Mika" "Náhum" "Hábakkuk" "Sefanja" "Haggai" "Zakarja" "Málaki" "Evangeliið eftir Matteus" "Evangeliið eftir Markus" "Evangeliið eftir Lukas" "Evangeliið eftir Jóhannes" "Ápostlasøgan" "Bræv Paulusar ápostuls til Rómverja" "Fyrra bræv Paulusar ápostuls til Korintmanna" "Seinna bræv Paulusar ápostuls til Korintmanna" "Bræv Paulusar ápostuls til Galatamanna" "Bræv Paulusar ápostuls til Efesusmanna" "Bræv Paulusar ápostuls til Filippimanna" "Bræv Paulusar ápostuls til Kolossumanna" "Fyrra bræv Paulusar ápostuls til Tessalónikumanna" "Seinna bræv Paulusar ápostuls til Tessalónikumanna" "Fyrra bræv Paulusar ápostuls til Timoteusar" "Seinna bræv Paulusar ápostuls til Timoteusar" "Bræv Paulusar ápostuls til Titusar" "Bræv Paulusar ápostuls til Filemons" "Brævið til Hebreara" "Hitt almenna bræv Jákups" "Hitt fyrra almenna bræv Pæturs" "Hitt seinna almenna bræv Pæturs" "Hitt fyrsta almenna bræv Jóhannesar" "Annað bræv Jóhannesar" "Triðja bræv Jóhannesar" "Hitt almenna bræv Judasar" "Jóhannesar opinbering")
 
+if [ $# -eq 0 ] ; then 
+  echo "Brúksháttur: $0 les Guds ord" >&2 
+  echo "Dømir" >&2 
+  echo "    bíblia matt 3 16" >&2 
+  echo "    bíblia matt 3 1 17" >&2 
+  echo "    bíblia sálm 108" >&2 
+  echo "    sh bíblia jóhan 1 12 24" >&2
+  echo "            1) Evangeliið eftir Jóhannes		3) Annað bræv Jóhannesar		5) Jóhannesar opinbering" >&2
+  echo "            2) Hitt fyrsta almenna bræv Jóhannesar	4) Triðja bræv Jóhannesar" >&2
+  echo "    Choose a book (enter number): 1" >&2
+
+  exit 1 
+fi 
 
 search_term="$1"  # Use the first argument passed to the script as the search term
 chapter="$2"      # Use the second argument as the chapter number
 verse="$3"        # Use the third argument as the verse number
+verse2="$4"        # Use the fourth argument as the verse number
 
 # Create an array to store matches
 matching_books=()
@@ -41,14 +55,13 @@ else
     done
 fi
 
-echo $chosen_book 
-echo $chapter
-echo $verse
 # Use awk to extract the text for the given chapter and verse from the output.txt file
-text=$(awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $2 == chap && $3 == vrs {print $4}' output.txt)
-
-# Display the result
-echo $text
-
-#awk -F '\t' '{print $1" "$2" "$3}' output.txt
-#
+if [ $# -eq 4 ] ; then
+  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="v$verse" -v vrs2="v$verse2" '$1 == book && $2 == chap && $3 >= vrs1 && $3 <= vrs2 {print $3" "$4'\n'}' output.txt
+fi
+if [ $# -eq 3 ] ; then
+  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $2 == chap && $3 == vrs {print $4}' output.txt
+fi
+if [ $# -eq 2 ] ; then
+  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '$1 == book && $2 == chap {print $3" "$4'\n'}' output.txt
+fi
