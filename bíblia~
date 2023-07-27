@@ -41,6 +41,9 @@ else
     done
 fi
 
+echo $chosen_book 
+echo $chapter
+echo $verse
 # Use awk to extract the text for the given chapter and verse from the output.txt file
 text=$(awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $2 == chap && $3 == vrs {print $4}' output.txt)
 
