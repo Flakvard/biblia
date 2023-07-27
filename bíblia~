@@ -4,11 +4,17 @@ books=("Fyrsta Mósebók" "Onnur Mósebók" "Triðja Mósebók" "Fjórða Móseb
 
 if [ $# -eq 0 ] ; then 
   echo "Brúksháttur: $0 les Guds ord" >&2 
-  echo "Dømir" >&2 
+  echo "Dømir:" >&2 
+  echo "Evangeliið eftir Markusi, Kap 3" >&2 
+  echo "    bíblia mark 3" >&2 
+  echo "Evangeliið eftir Matteus, Kap 3, Vers 16:" >&2 
   echo "    bíblia matt 3 16" >&2 
-  echo "    bíblia matt 3 1 17" >&2 
+  echo "Evangeliið eftir Lukas, Kap 4, Vers 15 til Vers 19" >&2 
+  echo "    bíblia luk 4 15 19" >&2 
+  echo "Sálmarnir, sálmur 108" >&2 
   echo "    bíblia sálm 108" >&2 
-  echo "    sh bíblia jóhan 1 12 24" >&2
+  echo "Evangeliið eftir Jóhannes, Kap 1, Vers 12 til Vers 24" >&2 
+  echo "    bíblia jóhan 1 12 24" >&2
   echo "            1) Evangeliið eftir Jóhannes		3) Annað bræv Jóhannesar		5) Jóhannesar opinbering" >&2
   echo "            2) Hitt fyrsta almenna bræv Jóhannesar	4) Triðja bræv Jóhannesar" >&2
   echo "    Choose a book (enter number): 1" >&2
