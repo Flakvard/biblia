@@ -1,5 +1,12 @@
-# Bíblia
-Brúksháttur: bíblia les Guðs orð
+# Bíblia, Halgabók
+Les heilagu skriftirnar á terminalinum, Jákup Dahl týðing.
+
+## Brúksháttur: 
+```bash
+bíblia [bók] [kap] # finn 'bókina' og vís allan 'kapitulin'
+bíblia [bók] [kap] [vers] # finn 'bókina', 'kap' og vís eitt ávíst 'vers'
+bíblia [bók] [kap] [vers] [vers] # finn 'bókina', 'kap' og vís 'vers1' til 'vers2'
+```
 ## Dømi 1, vís ein heilan kap:
 ```
 Evangeliið eftir Markus, Kap 3
