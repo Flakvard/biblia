@@ -5,8 +5,8 @@ books=("Fyrsta Mósebók" "Onnur Mósebók" "Triðja Mósebók" "Fjórða Móseb
 enBooks=("Genesis" "Exodus" "Leviticus" "Numbers" "Deuteronomy" "Joshua" "Judges" "Ruth" "1 Samuel" "2 Samuel" "1 Kings" "2 Kings" "1 Chronicles" "2 Chronicles" "Ezra" "Nehemiah" "Esther" "Job" "Psalms" "Proverbs" "Ecclesiastes" "Song of Solomon" "Isaiah" "Jeremiah" "Lamentations" "Ezekiel" "Daniel" "Hosea" "Joel" "Amos" "Obadiah" "Jonah" "Micah" "Nahum" "Habakkuk" "Zephaniah" "Haggai" "Zechariah" "Malachi" "Matthew" "Mark" "Luke" "John" "Acts" "Romans" "1 Corinthians" "2 Corinthians" "Galatians" "Ephesians" "Philippians" "Colossians" "1 Thessalonians" "2 Thessalonians" "1 Timothy" "2 Timothy" "Titus" "Philemon" "Hebrews" "James" "1 Peter" "2 Peter" "1 John" "2 John" "3 John" "Jude" "Revelation")
 
 function display_usage() {
-  echo "Usage: $0 [-e] [-l] <bók> <kap> <vers> <vers>" >&2 
-  echo "Brúksháttur: $0 les Guðs orð" >&2 
+  echo "Usage: bíblia [-e] [-l] <bók> <kap> <vers> <vers>" >&2 
+  echo "Brúksháttur: bíblia les Guðs heilaga orð á terminalinum" >&2 
   echo "Options:"
   echo "    -e    Leita enska heiti á bókini"
   echo "    -l    Lista av øllum bøkrunum"
@@ -32,6 +32,7 @@ function display_usage() {
   echo "Lista allar bøkurnar á FØ og EN:" >&2 
   echo "    bíblia -l pro" >&2 
   echo "    Orðtøk Sálomons	Proverbs" >&2 
+  echo "bíblia liggur í path: "$0
 }
 
 # Function to display books in two columns as a table
@@ -192,7 +193,7 @@ else
 
     $1 == book && $2 == chap && strip_v($3) >= strip_v(vrs1) && strip_v($3) <= strip_v(vrs2) {
       verse = strip_v($3)
-      print verse" "$4
+      print $3" "$4
       found=1
     }
     END { if (!found) print "einki vers funnid" }
