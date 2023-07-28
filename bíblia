@@ -188,11 +188,11 @@ else
   fi
   if [ $# -eq 3 ] ; then
     # prints book, chapter and specifik verse
-    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $2 == chap && $3 == vrs {print $4}' biblia.txt
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $2 == chap && $3 == vrs {print $4; found=1} END{if (!found) print "einki vers funnid"}' biblia.txt
   fi
   if [ $# -eq 2 ] ; then
     # prints book and specifik chapter 
-    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '$1 == book && $2 == chap {print $3" "$4'\n'}' biblia.txt
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '$1 == book && $2 == chap {print $3" "$4; found=1} END{if (!found) print "einki vers funnid"}' biblia.txt
   fi
 fi
 
