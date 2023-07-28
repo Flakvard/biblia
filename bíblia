@@ -4,17 +4,12 @@ books=("Fyrsta Mósebók" "Onnur Mósebók" "Triðja Mósebók" "Fjórða Móseb
 
 enBooks=("Genesis" "Exodus" "Leviticus" "Numbers" "Deuteronomy" "Joshua" "Judges" "Ruth" "1 Samuel" "2 Samuel" "1 Kings" "2 Kings" "1 Chronicles" "2 Chronicles" "Ezra" "Nehemiah" "Esther" "Job" "Psalms" "Proverbs" "Ecclesiastes" "Song of Solomon" "Isaiah" "Jeremiah" "Lamentations" "Ezekiel" "Daniel" "Hosea" "Joel" "Amos" "Obadiah" "Jonah" "Micah" "Nahum" "Habakkuk" "Zephaniah" "Haggai" "Zechariah" "Malachi" "Matthew" "Mark" "Luke" "John" "Acts" "Romans" "1 Corinthians" "2 Corinthians" "Galatians" "Ephesians" "Philippians" "Colossians" "1 Thessalonians" "2 Thessalonians" "1 Timothy" "2 Timothy" "Titus" "Philemon" "Hebrews" "James" "1 Peter" "2 Peter" "1 John" "2 John" "3 John" "Jude" "Revelation")
 
-use_english_books=false
-
-# Check if the -e option is provided
-if [ "$1" = "-e" ]; then
-  use_english_books=true
-  shift
-fi
-
-if [ $# -eq 0 ] ; then 
-  echo "Usage: $0 [-e] <bók> <kap> <vers> <vers>" >&2 
+function display_usage() {
+  echo "Usage: $0 [-e] [-l] <bók> <kap> <vers> <vers>" >&2 
   echo "Brúksháttur: $0 les Guðs orð" >&2 
+  echo "Options:"
+  echo "    -e    Leita enska heiti á bókini"
+  echo "    -l    Lista av øllum bøkrunum"
   echo "Dømir:" >&2 
   echo "Evangeliið eftir Markus, Kap 3" >&2 
   echo "    bíblia mark 3" >&2 
@@ -29,43 +24,143 @@ if [ $# -eq 0 ] ; then
   echo "            1) Evangeliið eftir Jóhannes		3) Annað bræv Jóhannesar		5) Jóhannesar opinbering" >&2
   echo "            2) Hitt fyrsta almenna bræv Jóhannesar	4) Triðja bræv Jóhannesar" >&2
   echo "    Choose a book (enter number): 1" >&2
+}
 
-  exit 1 
-fi 
+# Function to display books in two columns as a table
+function display_books() {
+  local num_books=${#books[@]}
+  local num_columns=2
+  local col_width=40
 
-search_term="$1"  # Use the first argument passed to the script as the search term
-chapter="$2"      # Use the second argument as the chapter number
-verse="$3"        # Use the third argument as the verse number
-verse2="$4"        # Use the fourth argument as the verse number
+  for ((i = 0; i < num_books; i+=num_columns)); do
+    local faroese=${books[i]}
+    local english=${enBooks[i]}
+    printf "%s\t%s\n" "$faroese" "    $english"
+  done | column -t -s $'\t' -o ' | ' -c $((col_width * 2 + 3))
+}
 
 
-# Check if the book name is English or Faroese based on the -e option
-if "$use_english_books"; then
+use_english_books=false
 
-  # Create an array for matching en books
-  ENmatching_books=()
+# Check if the -l option is provided
+if [ "$1" = "-l" ]; then
+  if [ -n "$2" ]; then
+    # If search term is provided, iterate through both book arrays and grep approximate book names
+    search_term=$(echo "$2" | tr '[:upper:]' '[:lower:]')
+    for ((i = 0; i < ${#faroese_books[@]}; i++)); do
+      faroese=${faroese_books[i]}
+      english=${english_books[i]}
+      if [[ "$(echo $faroese | tr '[:upper:]' '[:lower:]')" =~ "$search_term" ]] || [[ "$(echo $english | tr '[:upper:]' '[:lower:]')" =~ "$search_term" ]]; then
+        echo -e "$faroese\t$english"
+      fi
+    done
+  else
+    # If no search term is provided, display all books in two columns
+    display_books
+  fi
+else
+
+  # Check if the -e option is provided
+  if [ "$1" = "-e" ]; then
+    use_english_books=true
+    shift
+  fi
+
+  if [ $# -eq 0 ] ; then 
+    display_usage
+    exit 1 
+  fi 
+
+  search_term="$1"  # Use the first argument passed to the script as the search term
+  chapter="$2"      # Use the second argument as the chapter number
+  verse="$3"        # Use the third argument as the verse number
+  verse2="$4"        # Use the fourth argument as the verse number
+
+
+  # Check if the book name is English or Faroese based on the -e option
+  if "$use_english_books"; then
+
+    # Create an array for matching en books
+    ENmatching_books=()
+
+    # Check for matches and add them to the array
+    for enbook in "${enBooks[@]}"; do
+        echo "$enbook" | grep -Fiq "$1"
+        if echo "$enbook" | grep -Fiq "$1"; then
+            ENmatching_books+=("$enbook")
+        fi
+    done
+
+    # Check the number of matches
+    num_matches="${#ENmatching_books[@]}"
+
+    # If there are no matches, exit
+    if [ "$num_matches" -eq 0 ]; then
+        echo "Error: Invalid English book name provided."
+        echo "No matches found for '$search_term'."
+        exit 1
+    fi
+
+    # If there is only one match, store it in the variable directly
+    if [ "$num_matches" -eq 1 ]; then
+        chosen_book="${ENmatching_books[0]}"
+    else
+        # If there are multiple matches, prompt the user to choose one
+        PS3="Choose a book (enter number): "
+        select chosen_book in "${matching_books[@]}"; do
+            if [ -n "$chosen_book" ]; then
+                break
+            else
+                echo "Invalid choice. Please select a number from the menu."
+            fi
+        done
+    fi
+
+    # Convert the English book name to the corresponding Faroese book name
+    index=-1
+
+    for ((i = 0; i < ${#enBooks[@]}; i++)); do if [ "${enBooks[i]}" = "$chosen_book" ]; then
+        index=$i
+        break
+      fi
+    done
+
+    if [ "$index" -ne -1 ]; then
+      faroese_name=${books[index]}
+      search_term=$faroese_name
+      echo "EN: "$chosen_book
+      echo "FO: "$search_term
+    else
+      echo "Error: English book name not found."
+      exit 1
+    fi
+    # exit en to fo function
+  fi
+
+
+  # Create an array to store matches
+  matching_books=()
+
 
   # Check for matches and add them to the array
-  for enbook in "${enBooks[@]}"; do
-      echo "$enbook" | grep -Fiq "$1"
-      if echo "$enbook" | grep -Fiq "$1"; then
-          ENmatching_books+=("$enbook")
+  for book in "${books[@]}"; do
+      if echo "$book" | grep -Fiq "$search_term"; then
+          matching_books+=("$book")
       fi
   done
 
   # Check the number of matches
-  num_matches="${#ENmatching_books[@]}"
+  num_matches="${#matching_books[@]}"
 
   # If there are no matches, exit
   if [ "$num_matches" -eq 0 ]; then
-      echo "Error: Invalid English book name provided."
       echo "No matches found for '$search_term'."
       exit 1
   fi
 
   # If there is only one match, store it in the variable directly
   if [ "$num_matches" -eq 1 ]; then
-      chosen_book="${ENmatching_books[0]}"
+      chosen_book="${matching_books[0]}"
   else
       # If there are multiple matches, prompt the user to choose one
       PS3="Choose a book (enter number): "
@@ -78,69 +173,15 @@ if "$use_english_books"; then
       done
   fi
 
-  # Convert the English book name to the corresponding Faroese book name
-  index=-1
-
-  for ((i = 0; i < ${#enBooks[@]}; i++)); do if [ "${enBooks[i]}" = "$chosen_book" ]; then
-      index=$i
-      break
-    fi
-  done
-
-  if [ "$index" -ne -1 ]; then
-    faroese_name=${books[index]}
-    search_term=$faroese_name
-    echo "EN: "$chosen_book
-    echo "FO: "$search_term
-  else
-    echo "Error: English book name not found."
-    exit 1
+  # Use awk to extract the text for the given chapter and verse from the output.txt file
+  if [ $# -eq 4 ] ; then
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="v$verse" -v vrs2="v$verse2" '$1 == book && $2 == chap && $3 >= vrs1 && $3 <= vrs2 {print $3" "$4'\n'}' biblia.txt
   fi
-  # exit en to fo function
+  if [ $# -eq 3 ] ; then
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $2 == chap && $3 == vrs {print $4}' biblia.txt
+  fi
+  if [ $# -eq 2 ] ; then
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '$1 == book && $2 == chap {print $3" "$4'\n'}' biblia.txt
+  fi
 fi
 
-
-# Create an array to store matches
-matching_books=()
-
-# Check for matches and add them to the array
-for book in "${books[@]}"; do
-    if echo "$book" | grep -Fiq "$search_term"; then
-        matching_books+=("$book")
-    fi
-done
-
-# Check the number of matches
-num_matches="${#matching_books[@]}"
-
-# If there are no matches, exit
-if [ "$num_matches" -eq 0 ]; then
-    echo "No matches found for '$search_term'."
-    exit 1
-fi
-
-# If there is only one match, store it in the variable directly
-if [ "$num_matches" -eq 1 ]; then
-    chosen_book="${matching_books[0]}"
-else
-    # If there are multiple matches, prompt the user to choose one
-    PS3="Choose a book (enter number): "
-    select chosen_book in "${matching_books[@]}"; do
-        if [ -n "$chosen_book" ]; then
-            break
-        else
-            echo "Invalid choice. Please select a number from the menu."
-        fi
-    done
-fi
-
-# Use awk to extract the text for the given chapter and verse from the output.txt file
-if [ $# -eq 4 ] ; then
-  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="v$verse" -v vrs2="v$verse2" '$1 == book && $2 == chap && $3 >= vrs1 && $3 <= vrs2 {print $3" "$4'\n'}' biblia.txt
-fi
-if [ $# -eq 3 ] ; then
-  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $2 == chap && $3 == vrs {print $4}' biblia.txt
-fi
-if [ $# -eq 2 ] ; then
-  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '$1 == book && $2 == chap {print $3" "$4'\n'}' biblia.txt
-fi
