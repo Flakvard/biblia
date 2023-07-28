@@ -10,7 +10,8 @@ function display_usage() {
   echo "Options:"
   echo "    -e    Leita enska heiti á bókini"
   echo "    -l    Lista av øllum bøkrunum"
-  echo "Dømir:" >&2 
+  echo "" >&2 
+  echo "Dømir default:" >&2 
   echo "Evangeliið eftir Markus, Kap 3" >&2 
   echo "    bíblia mark 3" >&2 
   echo "Evangeliið eftir Matteus, Kap 3, Vers 16:" >&2 
@@ -24,6 +25,13 @@ function display_usage() {
   echo "            1) Evangeliið eftir Jóhannes		3) Annað bræv Jóhannesar		5) Jóhannesar opinbering" >&2
   echo "            2) Hitt fyrsta almenna bræv Jóhannesar	4) Triðja bræv Jóhannesar" >&2
   echo "    Choose a book (enter number): 1" >&2
+  echo "" >&2 
+  echo "Dømir [-l]:" >&2 
+  echo "Lista allar bøkurnar á FØ og EN:" >&2 
+  echo "    bíblia -l" >&2 
+  echo "Lista allar bøkurnar á FØ og EN:" >&2 
+  echo "    bíblia -l pro" >&2 
+  echo "    Orðtøk Sálomons	Proverbs" >&2 
 }
 
 # Function to display books in two columns as a table
@@ -35,7 +43,7 @@ function display_books() {
   for ((i = 0; i < num_books; i+=num_columns)); do
     local faroese=${books[i]}
     local english=${enBooks[i]}
-    printf "%s\t%s\n" "$faroese" "$english"
+    printf "%s\t%s\n" "$faroese" "    $english"
   done | column -t -s $'\t' -o ' | ' -c $((col_width * 2 + 3))
 }
 
@@ -47,9 +55,9 @@ if [ "$1" = "-l" ]; then
   if [ -n "$2" ]; then
     # If search term is provided, iterate through both book arrays and grep approximate book names
     search_term=$(echo "$2" | tr '[:upper:]' '[:lower:]')
-    for ((i = 0; i < ${#faroese_books[@]}; i++)); do
-      faroese=${faroese_books[i]}
-      english=${english_books[i]}
+    for ((i = 0; i < ${#books[@]}; i++)); do
+      faroese=${books[i]}
+      english=${enBooks[i]}
       if [[ "$(echo $faroese | tr '[:upper:]' '[:lower:]')" =~ "$search_term" ]] || [[ "$(echo $english | tr '[:upper:]' '[:lower:]')" =~ "$search_term" ]]; then
         echo -e "$faroese\t$english"
       fi
