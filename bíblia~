@@ -41,6 +41,7 @@ function display_books() {
   local num_columns=2
   local col_width=40
 
+  printf "%s\t%s\n" "Føroysku bøkurnar" "Ensku bøkurnar"
   for ((i = 0; i < num_books; i+=num_columns)); do
     local faroese=${books[i]}
     local english=${enBooks[i]}
@@ -60,9 +61,10 @@ if [ "$1" = "-l" ]; then
       faroese=${books[i]}
       english=${enBooks[i]}
       if [[ "$(echo $faroese | tr '[:upper:]' '[:lower:]')" =~ "$search_term" ]] || [[ "$(echo $english | tr '[:upper:]' '[:lower:]')" =~ "$search_term" ]]; then
-        echo -e "$faroese\t$english"
+        printf "%s\t%s\n" "$faroese" "    $english"
       fi
-    done
+    done | column -t -s $'\t' -o ' | ' -c $((col_width * 2 + 3))
+
   else
     # If no search term is provided, display all books in two columns
     display_books
