@@ -183,12 +183,15 @@ else
 
   # Use awk to extract the text for the given chapter and verse from the output.txt file
   if [ $# -eq 4 ] ; then
+    # prints book, chapter and specifik verse to another verse
     awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="v$verse" -v vrs2="v$verse2" '$1 == book && $2 == chap && $3 >= vrs1 && $3 <= vrs2 {print $3" "$4'\n'}' biblia.txt
   fi
   if [ $# -eq 3 ] ; then
+    # prints book, chapter and specifik verse
     awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $2 == chap && $3 == vrs {print $4}' biblia.txt
   fi
   if [ $# -eq 2 ] ; then
+    # prints book and specifik chapter 
     awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '$1 == book && $2 == chap {print $3" "$4'\n'}' biblia.txt
   fi
 fi
