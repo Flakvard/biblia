@@ -9,6 +9,7 @@ use_english_books=false
 # Check if the -e option is provided
 if [ "$1" = "-e" ]; then
   use_english_books=true
+  echo "first arg is "$1
   shift
 fi
 
