@@ -2,10 +2,26 @@
 Les heilagu skriftirnar á terminalinum, Jákup Dahl týðing.
 
 ## Brúksháttur: 
+### Vanligur brúksháttur
 ```bash
 bíblia [bók] [kap] # finn 'bókina' og vís allan 'kapitulin'
 bíblia [bók] [kap] [vers] # finn 'bókina', 'kap' og vís eitt ávíst 'vers'
 bíblia [bók] [kap] [vers] [vers] # finn 'bókina', 'kap' og vís 'vers1' til 'vers2'
+```
+### Leita við enska heitið á bøkurnar
+```bash
+bíblia -e [bók] [kap] # finn ensku 'bókina' og vís allan 'kapitulin' á føroyskum
+bíblia -e [bók] [kap] [vers] # finn ensku 'bókina', 'kap' og vís eitt ávíst 'vers' á føroyskum
+bíblia -e [bók] [kap] [vers] [vers] # finn ensku 'bókina', 'kap' og vís 'vers1' til 'vers2' á føroyskum
+```
+### Lista bøkur (enskt og føroyskt)
+```bash
+bíblia -l # Lista allar bøkurnar, bæði føroysku og ensku bøkurnar
+bíblia -l [bók] # Leita gjøgnum allar listaða bøkurnar, bæði føroysku og ensku bøkurnar
+```
+### Finn eitt vers ella har eitt orð gongur fram í bíbluni
+```bash
+bíblia -f [vers] # Leita gjøgnum øll versini í bíbluni
 ```
 ## Dømi 1, vís ein heilan kap:
 ```
