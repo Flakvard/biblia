@@ -27,31 +27,51 @@ bíblia -f "Leiti orð" # Leita gjøgnum øll versini í bíbluni
 ```
 Evangeliið eftir Markus, Kap 3
     bíblia mark 3`
+        ....
 ```
 ## Dømi 2, vís eitt ávíst vers:
 ```
-Evangeliið eftir Matteus, Kap 3, Vers 16:
-    bíblia matt 3 16
+Evangeliið eftir Matteus, Kap 15, Vers 8:
+    bíblia matt 15 8
+        v8 «Hetta fólkið ærir meg við vørrunum; men hjarta teirra er langt burtur frá mær.
 ```
 ## Dømi 3, vís ávís vers :
 ```
-Evangeliið eftir Lukas, Kap 4, Vers 15 til Vers 19
-    bíblia luk 4 15 19
+Evangeliið eftir Lukas, Kap 4, Vers 18 til Vers 19
+    bíblia luk 4 18 19
+        v18 «Andi Harrans er yvir mær, av tí at hann hevur salvað meg, til at bera fátækum gleðiboð. Sent hevur hann meg út til at boða fangum frælsi og 
+        blindum sjón, til at sleppa neyðstøddum leysum,
+        v19 til at kunngera eitt Harrans náðiár.»
 ```
-## Dømi 4, vís ein heilan kap/sálm:
+## Dømi 4, vís ávís vers :
+```
+Proverbs, Kap 3, Vers 14 til Vers 16
+    bíblia -e pro 3 14 16
+        EN: Proverbs
+        FO: Orðtøk Sálomons
+        v14 Tí at betri er hana at vinna enn silvur at vinna, og at ognast hana meiri enn gull.
+        v15 Dýrmætari er hon enn perlur, allir dýrgripir tínir kunnu ei metast javnt við hana.
+        v16 Eitt langt lív er í hennara høgru hond, ríkidømi og æra í vinstru.
+```
+## Dømi 5, vís ein heilan kap/sálm:
 ```
 Sálmarnir, sálmur 108
     bíblia sálm 108
+        ...
 ```
-## Dømi 5, vel røttu bók, um ikki skrivað neyvt nokk:
+## Dømi 6, vel røttu bók, um ikki skrivað neyvt nokk:
 ```
-Evangeliið eftir Jóhannes, Kap 1, Vers 12 til Vers 24
-    bíblia jóhan 1 12 24
+Evangeliið eftir Jóhannes, Kap 3, Vers 16 til Vers 18
+    bíblia jóhan 3 16 18
             1) Evangeliið eftir Jóhannes		3) Annað bræv Jóhannesar		5) Jóhannesar opinbering
             2) Hitt fyrsta almenna bræv Jóhannesar	4) Triðja bræv Jóhannesar
     Choose a book (enter number): 1
+        v16 Tí at so elskaði Guð heimin, at hann gav son sín, hin einborna, til tess at ein og hvør, sum trýr á hann, ikki skal glatast, men hava ævigt lív.
+        v17 Tí at ikki sendi Guð sonin í heimin, til tess at hann skal døma heimin, men til tess at heimurin skal verða frelstur við honum.
+        v18 Tann, sum trýr á hann, verður ikki dømdur. Tann, sum ikki trýr, er longu dømdur, við tað at hann ikki hevur trúð á navn hins einborna Guðs 
+        sonar.
 ```
-## Dømi 6, Finn ein ávísan setning ella orð:
+## Dømi 7, Finn ein ávísan setning ella orð:
 ```
     bíblia -f "Hetta fólkið ærir meg við vørrunum"
         Evangeliið eftir Matteus 15 v8 «Hetta fólkið ærir meg við vørrunum; men hjarta teirra er langt burtur frá mær.
