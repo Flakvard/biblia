@@ -1,4 +1,4 @@
-# Bíblia, Halgabók
+# Bíblia - Les halgabók
 Les heilagu skriftirnar á terminalinum, Jákup Dahl týðing.
 
 ## Brúksháttur: 
