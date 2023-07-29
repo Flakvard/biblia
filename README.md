@@ -35,3 +35,11 @@ Evangeliið eftir Jóhannes, Kap 1, Vers 12 til Vers 24
             2) Hitt fyrsta almenna bræv Jóhannesar	4) Triðja bræv Jóhannesar
     Choose a book (enter number): 1
 ```
+## Dømi 6, Finn ein ávísan setning ella orð:
+```
+    bíblia -f "Hetta fólkið ærir meg við vørrunum"
+        Evangeliið eftir Matteus 15 v8 «Hetta fólkið ærir meg við vørrunum; men hjarta teirra er langt burtur frá mær.
+        Evangeliið eftir Markus 7 v6 Men hann segði við teir: «Beint hevur Jesaja profeterað um tykkum, tykkara falsarar, soleiðis sum skrivað stendur:     
+        «Hetta fólkið ærir meg við vørrunum; men hjarta teirra er langt burtur frá mær.
+
+```    
