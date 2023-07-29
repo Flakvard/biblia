@@ -5,7 +5,7 @@ books=("Fyrsta Mósebók" "Onnur Mósebók" "Triðja Mósebók" "Fjórða Móseb
 enBooks=("Genesis" "Exodus" "Leviticus" "Numbers" "Deuteronomy" "Joshua" "Judges" "Ruth" "1 Samuel" "2 Samuel" "1 Kings" "2 Kings" "1 Chronicles" "2 Chronicles" "Ezra" "Nehemiah" "Esther" "Job" "Psalms" "Proverbs" "Ecclesiastes" "Song of Solomon" "Isaiah" "Jeremiah" "Lamentations" "Ezekiel" "Daniel" "Hosea" "Joel" "Amos" "Obadiah" "Jonah" "Micah" "Nahum" "Habakkuk" "Zephaniah" "Haggai" "Zechariah" "Malachi" "Matthew" "Mark" "Luke" "John" "Acts" "Romans" "1 Corinthians" "2 Corinthians" "Galatians" "Ephesians" "Philippians" "Colossians" "1 Thessalonians" "2 Thessalonians" "1 Timothy" "2 Timothy" "Titus" "Philemon" "Hebrews" "James" "1 Peter" "2 Peter" "1 John" "2 John" "3 John" "Jude" "Revelation")
 
 function display_usage() {
-  echo "Usage: bíblia [-e] [-l] <bók> <kap> <vers> <vers>" >&2 
+  echo "Usage: bíblia [-e] [-l] [-f] <bók> <kap> <vers> <vers>" >&2 
   echo "Brúksháttur: bíblia les Guðs heilaga orð á terminalinum" >&2 
   echo "Options:"
   echo "    -e    Leita enska heiti á bókini"
@@ -32,6 +32,12 @@ function display_usage() {
   echo "Lista allar bøkurnar á FØ og EN:" >&2 
   echo "    bíblia -l pro" >&2 
   echo "    Orðtøk Sálomons	Proverbs" >&2 
+  echo "" >&2 
+  echo "Dømir [-f]:" >&2 
+  echo "Finn ávís vers:" >&2 
+  echo "    bíblia -f \"Vil nakar ganga aftan á meg\"" >&2 
+  echo "Evangeliið eftir Matteus 16 v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!
+" >&2 
   echo "bíblia liggur í path: "$0
 }
 
@@ -52,6 +58,7 @@ function display_books() {
 function search_verses() {
   local search_string="$1"
   awk -F '\t' -v search="$search_string" '$4 ~ search {print $1" "$2" "$3" "$4}' biblia.txt
+  echo -e "Vers funni: "awk -F '\t' -v search="$search_string" '$4 ~ search {print $1" "$2" "$3" "$4}' biblia.txt | wc -l
 }
 
 use_english_books=false
