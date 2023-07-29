@@ -41,7 +41,6 @@ function display_books() {
   local num_columns=2
   local col_width=40
 
-  printf "%s\t%s\n" "Føroysku bøkurnar" "Ensku bøkurnar"
   for ((i = 0; i < num_books; i+=num_columns)); do
     local faroese=${books[i]}
     local english=${enBooks[i]}
@@ -49,6 +48,11 @@ function display_books() {
   done | column -t -s $'\t' -o ' | ' -c $((col_width * 2 + 3))
 }
 
+# Function to search for verses based on a given search string
+function search_verses() {
+  local search_string="$1"
+  awk -F '\t' -v search="$search_string" '$4 ~ search {print $2" "$3" "$4}' biblia.txt
+}
 
 use_english_books=false
 
@@ -68,6 +72,14 @@ if [ "$1" = "-l" ]; then
   else
     # If no search term is provided, display all books in two columns
     display_books
+  fi
+elif [ "$1" = "-f" ]; then
+  # Check if the -f option is provided to search for a specific string
+  if [ $# -eq 2 ]; then
+    search_verses "$2"
+  else
+    echo "Usage: bíblia -f \"Search String\""
+    exit 1
   fi
 else
 
