@@ -51,7 +51,7 @@ function display_books() {
 # Function to search for verses based on a given search string
 function search_verses() {
   local search_string="$1"
-  awk -F '\t' -v search="$search_string" '$4 ~ search {print $2" "$3" "$4}' biblia.txt
+  awk -F '\t' -v search="$search_string" '$4 ~ search {print $1" "$2" "$3" "$4}' biblia.txt
 }
 
 use_english_books=false
