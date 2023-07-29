@@ -21,7 +21,7 @@ bíblia -l [bók] # Leita gjøgnum allar listaða bøkurnar, bæði føroysku og
 ```
 ### Finn eitt vers ella har eitt orð gongur fram í bíbluni
 ```bash
-bíblia -f [vers] # Leita gjøgnum øll versini í bíbluni
+bíblia -f "Leiti orð" # Leita gjøgnum øll versini í bíbluni
 ```
 ## Dømi 1, vís ein heilan kap:
 ```
