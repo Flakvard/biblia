@@ -76,6 +76,28 @@ function select_book_from_list() {
   echo "$chosen_book" # Return the chosen book
 }
 
+function convertBookENtoFO(){
+  # Convert the English book name to the corresponding Faroese book name
+  local index=-1
+  for ((i = 0; i < ${#enBooks[@]}; i++)); do if [ "${enBooks[i]}" = "$chosen_book" ]; then
+      index=$i
+      break
+    fi
+  done
+
+  if [ "$index" -ne -1 ]; then
+    faroese_name=${books[index]}
+    search_term=$faroese_name
+  else
+    echo "Error: English book name not found."
+    exit 1
+  fi
+  # exit en to fo function
+}
+#####################                          ##################
+##################### Main program starts here ##################
+#####################                          ##################
+
 use_english_books=false
 
 # Check if the -l option is provided
@@ -154,31 +176,15 @@ else
         chosen_book=$(select_book_from_list "${ENmatching_books[@]}")      
     fi
 
+    echo "EN: "$chosen_book
     # Convert the English book name to the corresponding Faroese book name
-    index=-1
-
-    for ((i = 0; i < ${#enBooks[@]}; i++)); do if [ "${enBooks[i]}" = "$chosen_book" ]; then
-        index=$i
-        break
-      fi
-    done
-
-    if [ "$index" -ne -1 ]; then
-      faroese_name=${books[index]}
-      search_term=$faroese_name
-      echo "EN: "$chosen_book
-      echo "FO: "$search_term
-    else
-      echo "Error: English book name not found."
-      exit 1
-    fi
-    # exit en to fo function
+    convertBookENtoFO 
+    echo "FO: "$search_term
   fi
 
-
+  
   # Create an array to store matches
   matching_books=()
-
 
   # Check for matches and add them to the array
   for book in "${books[@]}"; do
