@@ -60,6 +60,22 @@ function search_verses() {
   awk -F '\t' -v search="$search_string" '$4 ~ search {print $1" "$2" "$3" "$4}' biblia.txt
 }
 
+# Function to select a book from the list of matching books
+function select_book_from_list() {
+  local matching_books=("$@")
+  local chosen_book
+
+  PS3="Choose a book (enter number): "
+  select chosen_book in "${matching_books[@]}"; do
+    if [ -n "$chosen_book" ]; then
+      break
+    else
+      echo "Invalid choice. Please select a number from the menu."
+    fi
+  done
+  echo "$chosen_book" # Return the chosen book
+}
+
 use_english_books=false
 
 # Check if the -l option is provided
@@ -135,14 +151,7 @@ else
         chosen_book="${ENmatching_books[0]}"
     else
         # If there are multiple matches, prompt the user to choose one
-        PS3="Choose a book (enter number): "
-        select chosen_book in "${matching_books[@]}"; do
-            if [ -n "$chosen_book" ]; then
-                break
-            else
-                echo "Invalid choice. Please select a number from the menu."
-            fi
-        done
+        chosen_book=$(select_book_from_list "${ENmatching_books[@]}")      
     fi
 
     # Convert the English book name to the corresponding Faroese book name
@@ -166,10 +175,9 @@ else
     # exit en to fo function
   fi
 
-
+  
   # Create an array to store matches
   matching_books=()
-
 
   # Check for matches and add them to the array
   for book in "${books[@]}"; do
@@ -192,14 +200,7 @@ else
       chosen_book="${matching_books[0]}"
   else
       # If there are multiple matches, prompt the user to choose one
-      PS3="Choose a book (enter number): "
-      select chosen_book in "${matching_books[@]}"; do
-          if [ -n "$chosen_book" ]; then
-              break
-          else
-              echo "Invalid choice. Please select a number from the menu."
-          fi
-      done
+      chosen_book=$(select_book_from_list "${matching_books[@]}")      
   fi
 
   # Use awk to extract the text for the given chapter and verse from the output.txt file
