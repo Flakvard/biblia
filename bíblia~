@@ -104,13 +104,13 @@ if [ $# -eq 0 ] ; then
 fi 
 
 use_english_books=false
-listSearch=false
+listSearch=0
 findBook=0
 
 while getopts "elf" opt; do
   case $opt in
     e ) use_english_books=true   ;;
-    l ) listSearch=true          ;;
+    l ) listSearch=1             ;;
     f ) findBook=1               ;;
   esac
 done
@@ -124,7 +124,7 @@ verse2="$4"        # Use the fourth argument as the verse number
 
 
 # Check if the -l option is provided
-if "$listSearch"; then
+if [ $listSearch -eq 1 ] ; then
   if [ -n "$1" ]; then
     # If search term is provided, iterate through both book arrays and grep approximate book names
     search_term=$(echo "$1" | tr '[:upper:]' '[:lower:]')
@@ -194,7 +194,7 @@ matching_books=()
 num_matches=0
 
 # Start searching the books and -f option is turned off
-if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] ; then
+if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] ; then
   echo "inside the if statement"
   if [ "$num_matches" -eq 0 ]; then
   # Check for matches and add them to the array
