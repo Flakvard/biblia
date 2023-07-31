@@ -100,9 +100,30 @@ function convertBookENtoFO(){
 
   if [ "$index" -ne -1 ]; then
     faroese_name=${books[index]}
-    search_term=$faroese_name
+    chosen_book=$faroese_name
   else
     echo "Error: English book name not found."
+    exit 1
+  fi
+  # exit en to fo function
+}
+
+
+
+function convertBookFOtoEN(){
+  # Convert the English book name to the corresponding Faroese book name
+  local index=-1
+  for ((i = 0; i < ${#books[@]}; i++)); do if [ "${books[i]}" = "$chosen_book" ]; then
+      index=$i
+      break
+    fi
+  done
+
+  if [ "$index" -ne -1 ]; then
+    english_name=${enBooks[index]}
+    chosen_book=$english_name
+  else
+    echo "Error: Faroese book name not found."
     exit 1
   fi
   # exit en to fo function
@@ -167,7 +188,7 @@ if [ $findBook -eq 1 ]; then
 fi
 
 # Check if the -e option is provided and book name is English 
-if "$use_english_books" || [[ kjv -eq 1 ]]; then
+if "$use_english_books" ; then
 
   # Create an array for matching en books
   ENmatching_books=()
@@ -201,17 +222,24 @@ if "$use_english_books" || [[ kjv -eq 1 ]]; then
   echo "EN: "$chosen_book
 fi
 
+############ Search Faroese books ############
+
 # Create an array to store matches
 matching_books=()
 num_matches=0
 
-# Start searching the books and -f option is turned off
-if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] && [[ $kjv -eq 0 ]] ; then
+if "$use_english_books" ; then
+  # Convert the English book name to the corresponding Faroese book name
+  convertBookENtoFO 
+  search_term=$chosen_book
+  echo "FO: "$chosen_book
+fi
 
-  if "$use_english_books"; then
-    # Convert the English book name to the corresponding Faroese book name
-    convertBookENtoFO 
-    echo "FO: "$search_term
+# Start searching the books and -f option is turned off
+if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] ; then
+
+  if [ $kjv -eq 1 ] && "$use_english_books" ; then
+    search_term=$chosen_book
   fi
 
   if [ "$num_matches" -eq 0 ]; then
@@ -240,63 +268,72 @@ if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] && [[ $kjv 
     chosen_book=$(select_book_from_list "${matching_books[@]}")      
   fi
 
-  # Use awk to extract the text for the given chapter and verse from the bible.txt file
-  if [ $# -eq 4 ] ; then
-    # prints book, chapter and specific verse to another verse
-    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="v$verse" -v vrs2="v$verse2" '
-    function strip_v(verse) {
-      sub(/^v/, "", verse)
-      return verse
-    }
-    $1 == book && $2 == chap && strip_v($3) >= strip_v(vrs1) && strip_v($3) <= strip_v(vrs2) {
-      verse = strip_v($3)
-      print $3" "$4
-      found=1
-    }
-    END { if (!found) print "einki vers funnid" }
-    ' biblia.txt
-  fi
+  if [ $kjv -eq 0 ] ; then
+    echo "inside fø awk"
+    # Use awk to extract the text for the given chapter and verse from the bible.txt file
+    if [ $# -eq 4 ] ; then
+      # prints book, chapter and specific verse to another verse
+      awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="v$verse" -v vrs2="v$verse2" '
+      function strip_v(verse) {
+        sub(/^v/, "", verse)
+        return verse
+      }
+      $1 == book && $2 == chap && strip_v($3) >= strip_v(vrs1) && strip_v($3) <= strip_v(vrs2) {
+        verse = strip_v($3)
+        print $3" "$4
+        found=1
+      }
+      END { if (!found) print "einki vers funnid" }
+      ' biblia.txt
+    fi
 
-  if [ $# -eq 3 ] ; then
-    # prints book, chapter and specifik verse
-    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '
-    $1 == book && $2 == chap && $3 == vrs {
-      print $3" "$4; found=1
-    } 
-    END { if (!found) print "einki vers funnid"}' biblia.txt
-  fi
+    if [ $# -eq 3 ] ; then
+      # prints book, chapter and specifik verse
+      awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '
+      $1 == book && $2 == chap && $3 == vrs {
+        print $3" "$4; found=1
+      } 
+      END { if (!found) print "einki vers funnid"}' biblia.txt
+    fi
 
-  if [ $# -eq 2 ] ; then
-    # prints book and specifik chapter 
-    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '
-    $1 == book && $2 == chap {
-      print $3" "$4; found=1
-    } 
-    END { if (!found) print "einki vers funnid"}' biblia.txt
-  fi
-  if [ $# -gt 4 ] ; then
-    echo "Ov nógv arugmentir, kann ikki meira enn 4"
-    echo "bíblia [-elf] [bók] [kap] [vers1] [vers2]"
+    if [ $# -eq 2 ] ; then
+      # prints book and specifik chapter 
+      awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '
+      $1 == book && $2 == chap {
+        print $3" "$4; found=1
+      } 
+      END { if (!found) print "einki vers funnid"}' biblia.txt
+    fi
+    if [ $# -gt 4 ] ; then
+      echo "Ov nógv arugmentir, kann ikki meira enn 4"
+      echo "bíblia [-elf] [bók] [kap] [vers1] [vers2]"
+    fi
   fi
 
 fi
+
+if [ $kjv -eq 1 ] ; then
+  # Convert the Faroese book name to the corresponding English book name 
+  convertBookFOtoEN 
+fi
+
 #####################                          ##################
 ##################### kjv program starts here  ##################
 #####################                          ##################
 
 if [[ kjv -eq 1 ]] ; then
   # chosen_book=$1
-  # echo "Hello kjv"
-  # echo "Nummar \$1 : "$1
-  # echo "Nummar \$2 : "$2
-  # echo "Nummar \$3 : "$3
-  # echo "Nummar \$4 : "$4
-  # echo "Nummar \$5 : "$5
-  # echo "chosen book "$chosen_book 
-  # echo "chosen chapt "$chapter 
-  # echo "chosen verse "$verse 
-  # echo "chosen verse2 "$verse2 
-  # echo $# " hvørji args eru sett"
+   echo "Hello kjv"
+   echo "Nummar \$1 : "$1
+   echo "Nummar \$2 : "$2
+   echo "Nummar \$3 : "$3
+   echo "Nummar \$4 : "$4
+   echo "Nummar \$5 : "$5
+   echo "chosen book "$chosen_book 
+   echo "chosen chapt "$chapter 
+   echo "chosen verse "$verse 
+   echo "chosen verse2 "$verse2 
+   echo $# " hvørji args eru sett"
   # Use awk to extract the text for the given chapter and verse from the bible.txt file
   if [ $# -eq 4 ] ; then
     # prints book, chapter and specific verse to another verse
