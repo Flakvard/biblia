@@ -269,7 +269,6 @@ if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] ; then
   fi
 
   if [ $kjv -eq 0 ] ; then
-    echo "inside fø awk"
     # Use awk to extract the text for the given chapter and verse from the bible.txt file
     if [ $# -eq 4 ] ; then
       # prints book, chapter and specific verse to another verse
@@ -323,17 +322,17 @@ fi
 
 if [[ kjv -eq 1 ]] ; then
   # chosen_book=$1
-   echo "Hello kjv"
-   echo "Nummar \$1 : "$1
-   echo "Nummar \$2 : "$2
-   echo "Nummar \$3 : "$3
-   echo "Nummar \$4 : "$4
-   echo "Nummar \$5 : "$5
-   echo "chosen book "$chosen_book 
-   echo "chosen chapt "$chapter 
-   echo "chosen verse "$verse 
-   echo "chosen verse2 "$verse2 
-   echo $# " hvørji args eru sett"
+  # echo "Hello kjv"
+  # echo "Nummar \$1 : "$1
+  # echo "Nummar \$2 : "$2
+  # echo "Nummar \$3 : "$3
+  # echo "Nummar \$4 : "$4
+  # echo "Nummar \$5 : "$5
+  # echo "chosen book "$chosen_book 
+  # echo "chosen chapt "$chapter 
+  # echo "chosen verse "$verse 
+  # echo "chosen verse2 "$verse2 
+  # echo $# " hvørji args eru sett"
   # Use awk to extract the text for the given chapter and verse from the bible.txt file
   if [ $# -eq 4 ] ; then
     # prints book, chapter and specific verse to another verse
