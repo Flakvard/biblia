@@ -1,7 +1,41 @@
 #!/bin/bash
+
+# add color to test outputs
 . ANSIcolor
 initializeANSI
-#
+
+
+
+#########################################################################
+######################## bíblia sálm 108 ################################
+#########################################################################
+function test_default_book_chapter(){
+local result=$(bíblia sálm 108)
+local expected
+read -r -d '' expected <<- EOF
+v1 Ein songur, ein sálmur, av Dávidi.
+v2 Trygt er hjarta mítt, Guð, syngja eg vil og leika, o, tú sál mín, vakna!
+v3 Vakna saltur og harpa, eg morgunroðan vil vekja!
+v4 Fólkanna millum eg tær, Harri, vil lova, blant fólkasløg eg um teg vil syngja,
+v5 tí til himna upp røkkur tín miskunn og til skýggja trúfesti tín!
+v6 Sýn teg, Guð, í hátign á himni, um allan heimin veri tín dýrd!
+v7 Til tess at tínir vinir mega bjargaðir vera, hjálp tú við høgru hond tíni og bønhoyr meg!
+v8 Guð hevur talað í halgidómi sínum: «Í sigursgleði eg vil Sikem býta sundur, Sukkots-dal vil eg skifta.
+v9 Mítt er Gilead, og mítt er Manasse, Efraim er verja fyri høvdi mínum, Júda mín veldisstavur.
+v10 Móab er mín tváttarskál, til Edóm eg skógvar mínar blaki, rópi fagnaðarróp yvir Filistaland.» –
+v11 Men hvør skal meg føra til hin fasta stað, hvør vil meg leiða til Edóm?
+v12 Tú hevur, Guð, jú rikið okkum burtur, við herum várum tú, o Guð, ikki fylgir út!
+v13 Veit tú okkum móti fíggindanum hjálp, bert eitt eiti er mannahjálp!
+v14 Við Guðs hjálp vit skulu stórverk vinna, várar fíggindar hann í mold treður niður.
+EOF
+if [[ "${result}" == "${expected}" ]]; then
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia sálm 108"
+else
+  echo "${redb}${whitef}Test Failed!${reset} bíblia sálm 108"
+fi
+}
+test_default_book_chapter
+
 #########################################################################
 ######################## bíblia matt 16 24 ##############################
 #########################################################################
@@ -60,6 +94,24 @@ else
 fi
 }
 test_e_option_book_verse_to_verse
+
+
+#########################################################################
+######################## bíblia -f ######################################
+#########################################################################
+function test_f_option_search_verse(){
+local result=$(bíblia -f "Vil nakar ganga aftan á meg")
+local expected
+read -r -d '' expected <<- EOF
+Evangeliið eftir Matteus 16 v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!
+EOF
+if [[ "${result}" == "${expected}" ]]; then
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -f"
+else
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -f"
+fi
+}
+test_f_option_search_verse
 
 #########################################################################
 ######################## bíblia -l ######################################
