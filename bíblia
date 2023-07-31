@@ -107,12 +107,14 @@ fi
 use_english_books=false
 listSearch=0
 findBook=0
+kjv=0
 
-while getopts "elf" opt; do
+while getopts "elfk" opt; do
   case $opt in
     e ) use_english_books=true   ;;
     l ) listSearch=1             ;;
     f ) findBook=1               ;;
+    k ) kjv=1                    ;;
   esac
 done
 shift $(($OPTIND - 1))
@@ -153,7 +155,7 @@ if [ $findBook -eq 1 ]; then
 fi
 
 # Check if the -e option is provided and book name is English 
-if "$use_english_books"; then
+if "$use_english_books" || [[ kjv -eq 1 ]]; then
 
   # Create an array for matching en books
   ENmatching_books=()
@@ -185,9 +187,6 @@ if "$use_english_books"; then
   fi
 
   echo "EN: "$chosen_book
-  # Convert the English book name to the corresponding Faroese book name
-  convertBookENtoFO 
-  echo "FO: "$search_term
 fi
 
 # Create an array to store matches
@@ -195,8 +194,14 @@ matching_books=()
 num_matches=0
 
 # Start searching the books and -f option is turned off
-if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] ; then
-  echo "inside the if statement"
+if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] && [[ $kjv -eq 0 ]] ; then
+
+  if "$use_english_books"; then
+    # Convert the English book name to the corresponding Faroese book name
+    convertBookENtoFO 
+    echo "FO: "$search_term
+  fi
+
   if [ "$num_matches" -eq 0 ]; then
   # Check for matches and add them to the array
     for book in "${books[@]}"; do
@@ -222,43 +227,101 @@ if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] ; then
     # If there are multiple matches, prompt the user to choose one
     chosen_book=$(select_book_from_list "${matching_books[@]}")      
   fi
-fi
 
-# Use awk to extract the text for the given chapter and verse from the bible.txt file
-if [ $# -eq 4 ] ; then
-  # prints book, chapter and specific verse to another verse
-  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="v$verse" -v vrs2="v$verse2" '
-  function strip_v(verse) {
-    sub(/^v/, "", verse)
-    return verse
-  }
-  $1 == book && $2 == chap && strip_v($3) >= strip_v(vrs1) && strip_v($3) <= strip_v(vrs2) {
-    verse = strip_v($3)
-    print $3" "$4
-    found=1
-  }
-  END { if (!found) print "einki vers funnid" }
-  ' biblia.txt
-fi
+  # Use awk to extract the text for the given chapter and verse from the bible.txt file
+  if [ $# -eq 4 ] ; then
+    # prints book, chapter and specific verse to another verse
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="v$verse" -v vrs2="v$verse2" '
+    function strip_v(verse) {
+      sub(/^v/, "", verse)
+      return verse
+    }
+    $1 == book && $2 == chap && strip_v($3) >= strip_v(vrs1) && strip_v($3) <= strip_v(vrs2) {
+      verse = strip_v($3)
+      print $3" "$4
+      found=1
+    }
+    END { if (!found) print "einki vers funnid" }
+    ' biblia.txt
+  fi
 
-if [ $# -eq 3 ] ; then
-  # prints book, chapter and specifik verse
-  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '
-  $1 == book && $2 == chap && $3 == vrs {
-    print $3" "$4; found=1
-  } 
-  END { if (!found) print "einki vers funnid"}' biblia.txt
-fi
+  if [ $# -eq 3 ] ; then
+    # prints book, chapter and specifik verse
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '
+    $1 == book && $2 == chap && $3 == vrs {
+      print $3" "$4; found=1
+    } 
+    END { if (!found) print "einki vers funnid"}' biblia.txt
+  fi
 
-if [ $# -eq 2 ] ; then
-  # prints book and specifik chapter 
-  awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '
-  $1 == book && $2 == chap {
-    print $3" "$4; found=1
-  } 
-  END { if (!found) print "einki vers funnid"}' biblia.txt
+  if [ $# -eq 2 ] ; then
+    # prints book and specifik chapter 
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '
+    $1 == book && $2 == chap {
+      print $3" "$4; found=1
+    } 
+    END { if (!found) print "einki vers funnid"}' biblia.txt
+  fi
+  if [ $# -gt 4 ] ; then
+    echo "Ov nógv arugmentir, kann ikki meira enn 4"
+    echo "bíblia [-elf] [bók] [kap] [vers1] [vers2]"
+  fi
+
 fi
-if [ $# -gt 4 ] ; then
-  echo "Ov nógv arugmentir, kann ikki meira enn 4"
-  echo "bíblia [-elf] [bók] [kap] [vers1] [vers2]"
+#####################                          ##################
+##################### kjv program starts here  ##################
+#####################                          ##################
+
+if [[ kjv -eq 1 ]] ; then
+  # chosen_book=$1
+  # echo "Hello kjv"
+  # echo "Nummar \$1 : "$1
+  # echo "Nummar \$2 : "$2
+  # echo "Nummar \$3 : "$3
+  # echo "Nummar \$4 : "$4
+  # echo "Nummar \$5 : "$5
+  # echo "chosen book "$chosen_book 
+  # echo "chosen chapt "$chapter 
+  # echo "chosen verse "$verse 
+  # echo "chosen verse2 "$verse2 
+  # echo $# " hvørji args eru sett"
+  # Use awk to extract the text for the given chapter and verse from the bible.txt file
+  if [ $# -eq 4 ] ; then
+    # prints book, chapter and specific verse to another verse
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="$verse" -v vrs2="$verse2" '
+    function strip_v(verse) {
+      sub(/^v/, "", verse)
+      return verse
+    }
+    $1 == book && $4 == chap && strip_v($5) >= strip_v(vrs1) && strip_v($5) <= strip_v(vrs2) {
+      verse = strip_v($5)
+      print "v"$5" "$6
+      found=1
+    }
+    END { if (!found) print "einki vers funnid" }
+    ' kjv.txt
+  fi
+
+  if [ $# -eq 3 ] ; then
+    # prints book, chapter and specifik verse
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="$verse" '
+    $1 == book && $4 == chap && $5 == vrs {
+      print "v"$5" "$6; found=1
+    } 
+    END { if (!found) print "einki vers funnid"}' kjv.txt
+    #awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $4 == chap && $5 == vrs {print $5" "$6}' kjv.txt
+  fi
+
+  if [ $# -eq 2 ] ; then
+    # prints book and specifik chapter 
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '
+    $1 == book && $4 == chap {
+      print "v"$5" "$6; found=1
+    } 
+    END { if (!found) print "einki vers funnid"}' kjv.txt
+  fi
+  if [ $# -gt 4 ] ; then
+    echo "Ov nógv arugmentir, kann ikki meira enn 4"
+    echo "bíblia [-elf] [bók] [kap] [vers1] [vers2]"
+  fi
 fi
