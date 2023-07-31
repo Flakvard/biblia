@@ -97,21 +97,23 @@ test_l_option_list_books
 #########################################################################
 ######################## bíblia -l john #################################
 #########################################################################
-result3=$(bíblia -l john)
-read -r -d '' expected3 <<- EOF
+function test_l_option_search_books() {
+local result=$(bíblia -l john)
+local expected
+read -r -d '' expected <<- EOF
 Evangeliið eftir Jóhannes           |     John
 Hitt fyrsta almenna bræv Jóhannesar |     1 John
 Annað bræv Jóhannesar               |     2 John
 Triðja bræv Jóhannesar              |     3 John
 EOF
-if [[ "${result3}" == "${expected3}" ]]; then
+if [[ "${result}" == "${expected}" ]]; then
   echo "Test passed! bíblia -l john"
 else
   echo "Test failed! bíblia -l john"
   exit 1
 fi
-
-
+}
+test_l_option_search_books
 
 #########################################################################
 ######################## bíblia jóhan 3 16 ##############################
