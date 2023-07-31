@@ -11,6 +11,7 @@ function display_usage() {
   echo "    -e    Leita enska heiti á bókini"
   echo "    -l    Lista av øllum bøkrunum"
   echo "    -f    Finn ein setning ella ord í bíbluni"
+  echo "    -k    Leita í King James Version"
   echo "" >&2 
   echo "Dømir default:" >&2 
   echo "Evangeliið eftir Markus, Kap 3" >&2 
@@ -37,8 +38,19 @@ function display_usage() {
   echo "Dømir [-f]:" >&2 
   echo "Finn ávís vers:" >&2 
   echo "    bíblia -f \"Vil nakar ganga aftan á meg\"" >&2 
-  echo "Evangeliið eftir Matteus 16 v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!
-" >&2 
+  echo "Evangeliið eftir Matteus 16 v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!"
+  echo "" >&2 
+  echo "Dømir [-k]:" >&2  
+  echo "bíblia -k john 3 16 17"
+  echo "1) John"
+  echo "2) 1 John"
+  echo "3) 2 John"
+  echo "4) 3 John"
+  echo "Choose a book (enter number): 1"
+  echo "EN: John"
+  echo "v16 For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."
+  echo "v17 For God sent not his Son into the world to condemn the world; but that the world through him might be saved."
+  echo "" >&2 
   echo "bíblia liggur í path: "$0
 }
 

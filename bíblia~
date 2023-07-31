@@ -11,6 +11,7 @@ function display_usage() {
   echo "    -e    Leita enska heiti á bókini"
   echo "    -l    Lista av øllum bøkrunum"
   echo "    -f    Finn ein setning ella ord í bíbluni"
+  echo "    -k    Leita í King James Version"
   echo "" >&2 
   echo "Dømir default:" >&2 
   echo "Evangeliið eftir Markus, Kap 3" >&2 
@@ -38,6 +39,8 @@ function display_usage() {
   echo "Finn ávís vers:" >&2 
   echo "    bíblia -f \"Vil nakar ganga aftan á meg\"" >&2 
   echo "Evangeliið eftir Matteus 16 v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!
+  echo "" >&2 
+  echo "Dømir [-k]:" >&2 
 " >&2 
   echo "bíblia liggur í path: "$0
 }
@@ -280,10 +283,10 @@ if [[ kjv -eq 1 ]] ; then
   # echo "Nummar \$3 : "$3
   # echo "Nummar \$4 : "$4
   # echo "Nummar \$5 : "$5
-   echo "chosen book "$chosen_book 
-   echo "chosen chapt "$chapter 
-   echo "chosen verse "$verse 
-   echo "chosen verse2 "$verse2 
+  # echo "chosen book "$chosen_book 
+  # echo "chosen chapt "$chapter 
+  # echo "chosen verse "$verse 
+  # echo "chosen verse2 "$verse2 
   # echo $# " hvørji args eru sett"
   # Use awk to extract the text for the given chapter and verse from the bible.txt file
   if [ $# -eq 4 ] ; then
