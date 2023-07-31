@@ -186,12 +186,9 @@ test_l_option_search_books
 ######################## bíblia jóhan 3 16 ##############################
 #########################################################################
 function test_multiple_book_matches_default(){
-echo "##################################"
-echo "#### Test user input - ignore ####"
-echo "##################################"
-local result=$(echo "1" | bash bíblia jóhan 3 16) 
+echo "############ Test user input - ignore ############"
+local result=$(bash bíblia jóhan 3 16 <<< "1") 
 echo "1"
-echo "##################################"
 local expected
 read -r -d '' expected <<- EOF
 v16 Tí at so elskaði Guð heimin, at hann gav son sín, hin einborna, til tess at ein og hvør, sum trýr á hann, ikki skal glatast, men hava ævigt lív.
@@ -201,6 +198,7 @@ if [[ "${result}" == "${expected}" ]]; then
 else
   echo "${redb}${whitef}Test Failed!${reset} bíblia jóhan 3 16"
 fi
+echo "##################################################"
 }
 test_multiple_book_matches_default
 
@@ -221,4 +219,45 @@ else
 fi
 }
 test_kjv_default_search
+
+#########################################################################
+######################## bíblia -ke mark 1 14 15 #########################
+#########################################################################
+function test_kjv_e_option_search(){
+local result=$(bíblia -ke mark 1 14 15)
+local expected
+read -r -d '' expected <<- EOF
+EN: Mark
+FO: Evangeliið eftir Markus
+v14 Now after that John was put in prison, Jesus came into Galilee, preaching the gospel of the kingdom of God,
+v15 And saying, The time is fulfilled, and the kingdom of God is at hand: repent ye, and believe the gospel.
+EOF
+if [[ "${result}" == "${expected}" ]]; then
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -ke mark 1 14 15"
+else
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -ke mark 1 14 15"
+fi
+}
+test_kjv_e_option_search
+
+#########################################################################
+######################## bíblia -kf #####################################
+#########################################################################
+function test_kjf_f_option_search_verse(){
+local result=$(bíblia -kf "For God so loved the world")
+local expected
+read -r -d '' expected <<- EOF
+v16 For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
+EOF
+if [[ "${result}" == "${expected}" ]]; then
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -ke mark 1 14 15"
+else
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -ke mark 1 14 15"
+fi
+echo "expected: "$expected
+echo "actual: "$actual
+}
+test_kjf_f_option_search_verse
+
+
 
