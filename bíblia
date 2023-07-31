@@ -146,13 +146,15 @@ use_english_books=false
 listSearch=0
 findBook=0
 kjv=0
+showAll=0
 
-while getopts "elfk" opt; do
+while getopts "elfka" opt; do
   case $opt in
     e ) use_english_books=true   ;;
     l ) listSearch=1             ;;
     f ) findBook=1               ;;
     k ) kjv=1                    ;;
+    a ) showAll=1                ;;
   esac
 done
 shift $(($OPTIND - 1))
@@ -318,16 +320,19 @@ if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] ; then
 
 fi
 
-if [ $kjv -eq 1 ] && [ $findBook -eq 0 ] ; then
+if [ $kjv -eq 1 ] && [ $findBook -eq 0 ] || [ $showAll -eq 1 ] ; then
   # Convert the Faroese book name to the corresponding English book name 
   convertBookFOtoEN 
 fi
-
+if [ $showAll -eq 1 ] ; then
+  echo ""
+  echo "King James Version"
+fi
 #####################                          ##################
 ##################### kjv program starts here  ##################
 #####################                          ##################
 
-if [[ kjv -eq 1 ]] ; then
+if [[ kjv -eq 1 ]] || [ $showAll -eq 1 ]; then
   # chosen_book=$1
   # echo "Hello kjv"
   # echo "Nummar \$1 : "$1

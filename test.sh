@@ -106,9 +106,9 @@ read -r -d '' expected <<- EOF
 Evangeliið eftir Matteus 16 v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!
 EOF
 if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -f"
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -f \"Vil nakar ganga aftan á meg\""
 else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -f"
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -f \"Vil nakar ganga aftan á meg\""
 fi
 }
 test_f_option_search_verse
@@ -250,31 +250,80 @@ read -r -d '' expected <<- EOF
 John 3 v16 For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
 EOF
 if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -kf"
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -kf \"For God so loved the world\""
 else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -kf"
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -kf \"For God so loved the world\""
 fi
 }
 test_kjf_f_option_search_verse
 
 
 #########################################################################
-######################## bíblia -kf #####################################
+######################## bíblia -a ######################################
 #########################################################################
-function test_kjf_f_option_search_verse(){
+function test_a_option_search_verse(){
 local result=$(bíblia -a matt 15 8)
 local expected
 read -r -d '' expected <<- EOF
-FO: Evangeliið eftir Matteus 15 v8 «Hetta fólkið ærir meg við vørrunum; men hjarta teirra er langt burtur frá mær.
-EN: Matthew 15 v8 This people draweth nigh unto me with their mouth, and honoureth me with their lips; but their heart is far from me.
+v8 «Hetta fólkið ærir meg við vørrunum; men hjarta teirra er langt burtur frá mær.
+
+King James Version
+v8 This people draweth nigh unto me with their mouth, and honoureth me with their lips; but their heart is far from me.
 EOF
 if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -kf"
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -a matt 15 8"
 else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -kf"
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -a matt 15 8"
 fi
-echo "Expected: "$expected
-echo "Actual:   "$result
 }
-test_kjf_f_option_search_verse
+test_a_option_search_verse
 
+
+
+#########################################################################
+######################## bíblia -a ######################################
+#########################################################################
+function test_a_option_search_verse_to_verse(){
+local result=$(bíblia -a matt 16 24 27)
+local expected
+read -r -d '' expected <<- EOF
+v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!
+v25 Tí at tann, ið vil bjarga lívi sínum, skal missa tað; men tann, ið missir lív sítt fyri mínar sakir, skal finna tað.
+v26 Tí hvat gagnar tað manni, um hann vinnur allan heimin, men má bøta afturfyri við sál síni? Ella hvat skal maður geva í viðurlag fyri sál sína?
+v27 Tí at menniskjusonurin skal koma í faðirs síns dýrd við einglum sínum, og tá skal hann gjalda einum og hvørjum eftir virki hansara!
+
+King James Version
+v24 Then said Jesus unto his disciples, If any man will come after me, let him deny himself, and take up his cross, and follow me.
+v25 For whosoever will save his life shall lose it: and whosoever will lose his life for my sake shall find it.
+v26 For what is a man profited, if he shall gain the whole world, and lose his own soul? or what shall a man give in exchange for his soul?
+v27 For the Son of man shall come in the glory of his Father with his angels; and then he shall reward every man according to his works.
+EOF
+if [[ "${result}" == "${expected}" ]]; then
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -a matt 16 24 27"
+else
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -a matt 16 24 27"
+fi
+}
+test_a_option_search_verse_to_verse
+
+#########################################################################
+######################## bíblia -ae ######################################
+#########################################################################
+function test_a_option_with_e_option(){
+local result=$(bíblia -ae "1 John" 3 16)
+local expected
+read -r -d '' expected <<- EOF
+EN: 1 John
+FO: Hitt fyrsta almenna bræv Jóhannesar
+v16 Av hesum kenna vit kærleikan, at hann læt lívið fyri okkum; so eiga vit eisini at lata lívið fyri brøðurnar.
+
+King James Version
+v16 Hereby perceive we the love of God, because he laid down his life for us: and we ought to lay down our lives for the brethren.
+EOF
+if [[ "${result}" == "${expected}" ]]; then
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -ae \"1 John\" 3 16"
+else
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -ae \"1 John\" 3 16"
+fi
+}
+test_a_option_with_e_option
