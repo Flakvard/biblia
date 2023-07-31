@@ -10,7 +10,7 @@ function display_usage() {
   echo "Options:"
   echo "    -e    Leita enska heiti á bókini"
   echo "    -l    Lista av øllum bøkrunum"
-  echo "    -f    Finn ein setning ella ord í bíbluni"
+  echo "    -f    Finn ein setning ella ord í bíbluni, kjv og Dahl"
   echo "    -k    Leita í King James Version"
   echo "" >&2 
   echo "Dømir default:" >&2 

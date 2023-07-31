@@ -258,4 +258,23 @@ fi
 test_kjf_f_option_search_verse
 
 
+#########################################################################
+######################## bíblia -kf #####################################
+#########################################################################
+function test_kjf_f_option_search_verse(){
+local result=$(bíblia -a matt 15 8)
+local expected
+read -r -d '' expected <<- EOF
+FO: Evangeliið eftir Matteus 15 v8 «Hetta fólkið ærir meg við vørrunum; men hjarta teirra er langt burtur frá mær.
+EN: Matthew 15 v8 This people draweth nigh unto me with their mouth, and honoureth me with their lips; but their heart is far from me.
+EOF
+if [[ "${result}" == "${expected}" ]]; then
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -kf"
+else
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -kf"
+fi
+echo "Expected: "$expected
+echo "Actual:   "$result
+}
+test_kjf_f_option_search_verse
 
