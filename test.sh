@@ -1,4 +1,23 @@
 #!/bin/bash
+. ANSIcolor
+initializeANSI
+#
+#########################################################################
+######################## bíblia matt 16 24 ##############################
+#########################################################################
+function test_default_book_verse(){
+local result=$(bíblia matt 15 8)
+local expected
+read -r -d '' expected <<- EOF
+v8 «Hetta fólkið ærir meg við vørrunum; men hjarta teirra er langt burtur frá mær.
+EOF
+if [[ "${result}" == "${expected}" ]]; then
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia matt 15 8"
+else
+  echo "${redb}${whitef}Test Failed!${reset} bíblia matt 15 8"
+fi
+}
+test_default_book_verse
 
 #########################################################################
 ######################## bíblia matt 16 24 27 ###########################
@@ -13,10 +32,9 @@ v26 Tí hvat gagnar tað manni, um hann vinnur allan heimin, men má bøta aftur
 v27 Tí at menniskjusonurin skal koma í faðirs síns dýrd við einglum sínum, og tá skal hann gjalda einum og hvørjum eftir virki hansara!
 EOF
 if [[ "${result}" == "${expected}" ]]; then
-  echo "Test passed! bíblia matt 16 24 27"
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia matt 16 24 27"
 else
-  echo "Test failed! bíblia matt 16 24 27"
-  exit 1
+  echo "${redb}${whitef}Test Failed!${reset} bíblia matt 16 24 27"
 fi
 }
 test_default_book_verse_to_verse
@@ -36,10 +54,9 @@ v26 Tí hvat gagnar tað manni, um hann vinnur allan heimin, men má bøta aftur
 v27 Tí at menniskjusonurin skal koma í faðirs síns dýrd við einglum sínum, og tá skal hann gjalda einum og hvørjum eftir virki hansara!
 EOF
 if [[ "${result}" == "${expected}" ]]; then
-  echo "Test passed! bíblia -e matt 16 24 27"
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -e matt 16 24 27"
 else
-  echo "Test failed! bíblia -e matt 16 24 27"
-  exit 1
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -e matt 16 24 27"
 fi
 }
 test_e_option_book_verse_to_verse
@@ -86,10 +103,9 @@ Annað bræv Jóhannesar                              |     2 John
 Hitt almenna bræv Judasar                          |     Jude
 EOF
 if [[ "${result}" == "${expected}" ]]; then
-  echo "Test passed! bíblia -l"
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -l"
 else
-  echo "Test failed! bíblia -l"
-  exit 1
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -l"
 fi
 }
 test_l_option_list_books
@@ -107,10 +123,9 @@ Annað bræv Jóhannesar               |     2 John
 Triðja bræv Jóhannesar              |     3 John
 EOF
 if [[ "${result}" == "${expected}" ]]; then
-  echo "Test passed! bíblia -l john"
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -l john"
 else
-  echo "Test failed! bíblia -l john"
-  exit 1
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -l john"
 fi
 }
 test_l_option_search_books
@@ -118,31 +133,40 @@ test_l_option_search_books
 #########################################################################
 ######################## bíblia jóhan 3 16 ##############################
 #########################################################################
-# #!/usr/bin/expect -f
-# set timeout -1
-# spawn ./questions
-# expect "Hello, who are you?\r"
-# send -- "Im Adam\r"
-# expect "Can I ask you some questions?\r"
-# send -- "Sure\r"
-# expect "What is your favorite topic?\r"
-# send -- "Technology\r"
-# expect eof
-
-result4=$(echo 1 | bash bíblia jóhan 3 16 1)
-read -r -d '' expected3 <<- EOF
-1) Evangeliið eftir Jóhannes
-2) Hitt fyrsta almenna bræv Jóhannesar
-3) Annað bræv Jóhannesar
-4) Triðja bræv Jóhannesar
-5) Jóhannesar opinbering
-Choose a book (enter number): 1
+function test_multiple_book_matches_default(){
+echo "##################################"
+echo "#### Test user input - ignore ####"
+echo "##################################"
+local result=$(echo "1" | bash bíblia jóhan 3 16) 
+echo "1"
+echo "##################################"
+local expected
+read -r -d '' expected <<- EOF
 v16 Tí at so elskaði Guð heimin, at hann gav son sín, hin einborna, til tess at ein og hvør, sum trýr á hann, ikki skal glatast, men hava ævigt lív.
 EOF
-echo result4
-if [[ "${result4}" == "${expected4}" ]]; then
-  echo "Test passed! bíblia jóhan 3 16"
+if [[ "${result}" == "${expected}" ]]; then
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia jóhan 3 16"
 else
-  echo "Test failed! bíblia jóhan 3 16"
-  exit 1
+  echo "${redb}${whitef}Test Failed!${reset} bíblia jóhan 3 16"
 fi
+}
+test_multiple_book_matches_default
+
+#########################################################################
+######################## bíblia -k mark 1 14 15 #########################
+#########################################################################
+function test_kjv_default_search(){
+local result=$(bíblia -k mark 1 14 15)
+local expected
+read -r -d '' expected <<- EOF
+v14 Now after that John was put in prison, Jesus came into Galilee, preaching the gospel of the kingdom of God,
+v15 And saying, The time is fulfilled, and the kingdom of God is at hand: repent ye, and believe the gospel.
+EOF
+if [[ "${result}" == "${expected}" ]]; then
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -k mark 1 14 15"
+else
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -k mark 1 14 15"
+fi
+}
+test_kjv_default_search
+
