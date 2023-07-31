@@ -73,6 +73,11 @@ function search_verses() {
   awk -F '\t' -v search="$search_string" '$4 ~ search {print $1" "$2" "$3" "$4}' biblia.txt
 }
 
+function search_kjv_verses() {
+  local search_string="$1"
+  awk -F '\t' -v search="$search_string" '$6 ~ search {print $1" "$4" v"$5" "$6}' kjv.txt
+}
+
 # Function to select a book from the list of matching books
 function select_book_from_list() {
   local matching_books=("$@")
@@ -111,7 +116,7 @@ function convertBookENtoFO(){
 
 
 function convertBookFOtoEN(){
-  # Convert the English book name to the corresponding Faroese book name
+  # Convert the Faroese book name to the corresponding English book name 
   local index=-1
   for ((i = 0; i < ${#books[@]}; i++)); do if [ "${books[i]}" = "$chosen_book" ]; then
       index=$i
@@ -179,8 +184,10 @@ fi
 
 # Check if the -f option is provided to search for a specific string
 if [ $findBook -eq 1 ]; then
-  if [ $# -eq 1 ]; then
+  if [ $# -eq 1 ] && [ $kjv -eq 0 ]; then
     search_verses "$1"
+  elif [ $# -eq 1 ] && [ $kjv -eq 1 ]; then
+    search_kjv_verses "$1"
   else
     echo "Usage: bíblia -f \"Search String\""
     exit 1
@@ -311,7 +318,7 @@ if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] ; then
 
 fi
 
-if [ $kjv -eq 1 ] ; then
+if [ $kjv -eq 1 ] && [ $findBook -eq 0 ] ; then
   # Convert the Faroese book name to the corresponding English book name 
   convertBookFOtoEN 
 fi

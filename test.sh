@@ -247,15 +247,13 @@ function test_kjf_f_option_search_verse(){
 local result=$(bíblia -kf "For God so loved the world")
 local expected
 read -r -d '' expected <<- EOF
-v16 For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
+John 3 v16 For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
 EOF
 if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -ke mark 1 14 15"
+  echo "${greenb}${whitef}Test Passed!${reset} bíblia -kf"
 else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -ke mark 1 14 15"
+  echo "${redb}${whitef}Test Failed!${reset} bíblia -kf"
 fi
-echo "expected: "$expected
-echo "actual: "$actual
 }
 test_kjf_f_option_search_verse
 
