@@ -2,6 +2,14 @@
 Les heilagu skriftirnar á terminalinum, Jákup Dahl týðing.
 
 ## Brúksháttur: 
+```bash
+bíblia [-e][-l][-f][-k][-a] <bók/leitorðið> <kap> <vers>
+    [-e] <Enskubøkurnar> <kap> <vers>
+    [-l] <lista/leita bøkurnar FØ/EN>
+    [-f] <Finn vers/orð>
+    [-k] <kjv týðing>
+    [-a] <vís alt, Dahl+kjv>
+```
 ### Vanligur brúksháttur
 ```bash
 bíblia [bók] [kap] # finn 'bókina' og vís allan 'kapitulin'
