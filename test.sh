@@ -4,7 +4,17 @@
 . ANSIcolor
 initializeANSI
 
-
+function assertEQ
+{
+  local result="$1"
+  local expected="$2"
+  local command="$3"
+if [[ "${result}" == "${expected}" ]]; then
+  echo "${greenb}${whitef}Test Passed!${reset} ${command}"
+else
+  echo "${redb}${whitef}Test Failed!${reset} ${command}"
+fi
+}
 
 #########################################################################
 ######################## bíblia sálm 108 ################################
@@ -12,6 +22,7 @@ initializeANSI
 function test_default_book_chapter(){
 local result=$(bíblia sálm 108)
 local expected
+local command="bíblia sálm 108"
 read -r -d '' expected <<- EOF
 v1 Ein songur, ein sálmur, av Dávidi.
 v2 Trygt er hjarta mítt, Guð, syngja eg vil og leika, o, tú sál mín, vakna!
@@ -28,11 +39,7 @@ v12 Tú hevur, Guð, jú rikið okkum burtur, við herum várum tú, o Guð, ikk
 v13 Veit tú okkum móti fíggindanum hjálp, bert eitt eiti er mannahjálp!
 v14 Við Guðs hjálp vit skulu stórverk vinna, várar fíggindar hann í mold treður niður.
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia sálm 108"
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia sálm 108"
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_default_book_chapter
 
@@ -42,14 +49,11 @@ test_default_book_chapter
 function test_default_book_verse(){
 local result=$(bíblia matt 15 8)
 local expected
+local command="bíblia matt 15 8"
 read -r -d '' expected <<- EOF
 v8 «Hetta fólkið ærir meg við vørrunum; men hjarta teirra er langt burtur frá mær.
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia matt 15 8"
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia matt 15 8"
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_default_book_verse
 
@@ -59,17 +63,14 @@ test_default_book_verse
 function test_default_book_verse_to_verse(){
 local result=$(bíblia matt 16 24 27)
 local expected
+local command="bíblia matt 16 24 27"
 read -r -d '' expected <<- EOF
 v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!
 v25 Tí at tann, ið vil bjarga lívi sínum, skal missa tað; men tann, ið missir lív sítt fyri mínar sakir, skal finna tað.
 v26 Tí hvat gagnar tað manni, um hann vinnur allan heimin, men má bøta afturfyri við sál síni? Ella hvat skal maður geva í viðurlag fyri sál sína?
 v27 Tí at menniskjusonurin skal koma í faðirs síns dýrd við einglum sínum, og tá skal hann gjalda einum og hvørjum eftir virki hansara!
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia matt 16 24 27"
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia matt 16 24 27"
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_default_book_verse_to_verse
 
@@ -79,6 +80,7 @@ test_default_book_verse_to_verse
 function test_e_option_book_verse_to_verse(){
 local result=$(bíblia -e matt 16 24 27)
 local expected
+local command="bíblia -e matt 16 24 27"
 read -r -d '' expected <<- EOF
 EN: Matthew
 FO: Evangeliið eftir Matteus
@@ -87,11 +89,7 @@ v25 Tí at tann, ið vil bjarga lívi sínum, skal missa tað; men tann, ið mis
 v26 Tí hvat gagnar tað manni, um hann vinnur allan heimin, men má bøta afturfyri við sál síni? Ella hvat skal maður geva í viðurlag fyri sál sína?
 v27 Tí at menniskjusonurin skal koma í faðirs síns dýrd við einglum sínum, og tá skal hann gjalda einum og hvørjum eftir virki hansara!
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -e matt 16 24 27"
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -e matt 16 24 27"
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_e_option_book_verse_to_verse
 
@@ -102,14 +100,11 @@ test_e_option_book_verse_to_verse
 function test_f_option_search_verse(){
 local result=$(bíblia -f "Vil nakar ganga aftan á meg")
 local expected
+local command="bíblia -f \"Vil nakar ganga aftan á meg\""
 read -r -d '' expected <<- EOF
 Evangeliið eftir Matteus 16 v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -f \"Vil nakar ganga aftan á meg\""
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -f \"Vil nakar ganga aftan á meg\""
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_f_option_search_verse
 
@@ -119,6 +114,7 @@ test_f_option_search_verse
 function test_l_option_list_books() {
 local result=$(bíblia -l)
 local expected
+local command="bíblia -l"
 read -r -d '' expected <<- EOF
 Fyrsta Mósebók                                     |     Genesis
 Triðja Mósebók                                     |     Leviticus
@@ -154,11 +150,7 @@ Hitt seinna almenna bræv Pæturs                    |     2 Peter
 Annað bræv Jóhannesar                              |     2 John
 Hitt almenna bræv Judasar                          |     Jude
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -l"
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -l"
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_l_option_list_books
 
@@ -168,17 +160,14 @@ test_l_option_list_books
 function test_l_option_search_books() {
 local result=$(bíblia -l john)
 local expected
+local command="bíblia -l john"
 read -r -d '' expected <<- EOF
 Evangeliið eftir Jóhannes           |     John
 Hitt fyrsta almenna bræv Jóhannesar |     1 John
 Annað bræv Jóhannesar               |     2 John
 Triðja bræv Jóhannesar              |     3 John
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -l john"
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -l john"
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_l_option_search_books
 
@@ -190,14 +179,11 @@ echo "############ Test user input - ignore ############"
 local result=$(bash bíblia jóhan 3 16 <<< "1") 
 echo "1"
 local expected
+local command="bíblia jóhan 3 16"
 read -r -d '' expected <<- EOF
 v16 Tí at so elskaði Guð heimin, at hann gav son sín, hin einborna, til tess at ein og hvør, sum trýr á hann, ikki skal glatast, men hava ævigt lív.
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia jóhan 3 16"
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia jóhan 3 16"
-fi
+assertEQ "$result" "$expected" "$command"
 echo "##################################################"
 }
 test_multiple_book_matches_default
@@ -208,15 +194,12 @@ test_multiple_book_matches_default
 function test_kjv_default_search(){
 local result=$(bíblia -k mark 1 14 15)
 local expected
+local command="bíblia -k mark 1 14 15"
 read -r -d '' expected <<- EOF
 v14 Now after that John was put in prison, Jesus came into Galilee, preaching the gospel of the kingdom of God,
 v15 And saying, The time is fulfilled, and the kingdom of God is at hand: repent ye, and believe the gospel.
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -k mark 1 14 15"
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -k mark 1 14 15"
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_kjv_default_search
 
@@ -226,17 +209,14 @@ test_kjv_default_search
 function test_kjv_e_option_search(){
 local result=$(bíblia -ke mark 1 14 15)
 local expected
+local command="bíblia -ke mark 1 14 15"
 read -r -d '' expected <<- EOF
 EN: Mark
 FO: Evangeliið eftir Markus
 v14 Now after that John was put in prison, Jesus came into Galilee, preaching the gospel of the kingdom of God,
 v15 And saying, The time is fulfilled, and the kingdom of God is at hand: repent ye, and believe the gospel.
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -ke mark 1 14 15"
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -ke mark 1 14 15"
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_kjv_e_option_search
 
@@ -246,14 +226,11 @@ test_kjv_e_option_search
 function test_kjf_f_option_search_verse(){
 local result=$(bíblia -kf "For God so loved the world")
 local expected
+local command="bíblia -kf \"For God so loved the world\""
 read -r -d '' expected <<- EOF
 John 3 v16 For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -kf \"For God so loved the world\""
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -kf \"For God so loved the world\""
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_kjf_f_option_search_verse
 
@@ -264,17 +241,14 @@ test_kjf_f_option_search_verse
 function test_a_option_search_verse(){
 local result=$(bíblia -a matt 15 8)
 local expected
+local command="bíblia -a matt 15 8"
 read -r -d '' expected <<- EOF
 v8 «Hetta fólkið ærir meg við vørrunum; men hjarta teirra er langt burtur frá mær.
 
 King James Version
 v8 This people draweth nigh unto me with their mouth, and honoureth me with their lips; but their heart is far from me.
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -a matt 15 8"
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -a matt 15 8"
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_a_option_search_verse
 
@@ -286,6 +260,7 @@ test_a_option_search_verse
 function test_a_option_search_verse_to_verse(){
 local result=$(bíblia -a matt 16 24 27)
 local expected
+local command="bíblia -a matt 16 24 27"
 read -r -d '' expected <<- EOF
 v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!
 v25 Tí at tann, ið vil bjarga lívi sínum, skal missa tað; men tann, ið missir lív sítt fyri mínar sakir, skal finna tað.
@@ -298,11 +273,7 @@ v25 For whosoever will save his life shall lose it: and whosoever will lose his 
 v26 For what is a man profited, if he shall gain the whole world, and lose his own soul? or what shall a man give in exchange for his soul?
 v27 For the Son of man shall come in the glory of his Father with his angels; and then he shall reward every man according to his works.
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -a matt 16 24 27"
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -a matt 16 24 27"
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_a_option_search_verse_to_verse
 
@@ -312,6 +283,7 @@ test_a_option_search_verse_to_verse
 function test_a_option_with_e_option(){
 local result=$(bíblia -ae "1 John" 3 16)
 local expected
+local command="bíblia -ae \"1 John\" 3 16"
 read -r -d '' expected <<- EOF
 EN: 1 John
 FO: Hitt fyrsta almenna bræv Jóhannesar
@@ -320,10 +292,6 @@ v16 Av hesum kenna vit kærleikan, at hann læt lívið fyri okkum; so eiga vit 
 King James Version
 v16 Hereby perceive we the love of God, because he laid down his life for us: and we ought to lay down our lives for the brethren.
 EOF
-if [[ "${result}" == "${expected}" ]]; then
-  echo "${greenb}${whitef}Test Passed!${reset} bíblia -ae \"1 John\" 3 16"
-else
-  echo "${redb}${whitef}Test Failed!${reset} bíblia -ae \"1 John\" 3 16"
-fi
+assertEQ "$result" "$expected" "$command"
 }
 test_a_option_with_e_option
