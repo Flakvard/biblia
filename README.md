@@ -1,5 +1,5 @@
 # Bíblia - Les halgabók
-Les heilagu skriftirnar á terminalinum, Jákup Dahl týðing.
+Les heilagu skriftirnar á terminalin Jákup Dahl týðing.
 
 ## Brúksháttur: 
 ```bash
