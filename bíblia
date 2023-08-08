@@ -9,6 +9,9 @@ books=("Fyrsta Mósebók" "Onnur Mósebók" "Triðja Mósebók" "Fjórða Móseb
 # 66 books confirmed
 enBooks=("Genesis" "Exodus" "Leviticus" "Numbers" "Deuteronomy" "Joshua" "Judges" "Ruth" "1 Samuel" "2 Samuel" "1 Kings" "2 Kings" "1 Chronicles" "2 Chronicles" "Ezra" "Nehemiah" "Esther" "Job" "Psalms" "Proverbs" "Ecclesiastes" "Song of Solomon" "Isaiah" "Jeremiah" "Lamentations" "Ezekiel" "Daniel" "Hosea" "Joel" "Amos" "Obadiah" "Jonah" "Micah" "Nahum" "Habakkuk" "Zephaniah" "Haggai" "Zechariah" "Malachi" "Matthew" "Mark" "Luke" "John" "Acts" "Romans" "1 Corinthians" "2 Corinthians" "Galatians" "Ephesians" "Philippians" "Colossians" "1 Thessalonians" "2 Thessalonians" "1 Timothy" "2 Timothy" "Titus" "Philemon" "Hebrews" "James" "1 Peter" "2 Peter" "1 John" "2 John" "3 John" "Jude" "Revelation")
 
+apocryphaBooks=("The First Book of Esdras" "The Second book of Esdras" "The Greek Addition to Esther" "The First Book of The Maccabees" "The Second Book of the Maccabees" "The Book of Tobit" "The Book of Judith" "The Wisdom of Solomon" "The Book of Sirach (or Ecclesiasticus)" "The Book of Baruch" "The Epistle (or letter) of Jeremiah (Jeremy)" "The Book of Susanna (in Daniel)" "The Prayer of Azariah" "The Prayer of Manasseh King of Judah" "The Book of Bel and the Dragon (in Daniel)")
+
+
 function display_usage() {
   echo "Usage: bíblia [-e] [-l] [-f] <bók> <kap> <vers> <vers>" >&2 
   echo "Brúksháttur: bíblia les Guðs heilaga orð á terminalinum" >&2 
@@ -17,46 +20,46 @@ function display_usage() {
   echo "    -l    Lista av øllum bøkrunum"
   echo "    -f    Finn ein setning ella ord í bíbluni, kjv og Dahl"
   echo "    -k    Leita í King James Version"
-  echo "" >&2 
-  echo "Dømir default:" >&2 
-  echo "Evangeliið eftir Markus, Kap 3" >&2 
-  echo "    bíblia mark 3" >&2 
-  echo "Evangeliið eftir Matteus, Kap 3, Vers 16:" >&2 
-  echo "    bíblia matt 3 16" >&2 
-  echo "Evangeliið eftir Lukas, Kap 4, Vers 15 til Vers 19" >&2 
-  echo "    bíblia luk 4 15 19" >&2 
-  echo "Sálmarnir, sálmur 108" >&2 
-  echo "    bíblia sálm 108" >&2 
-  echo "Evangeliið eftir Jóhannes, Kap 1, Vers 12 til Vers 24" >&2 
-  echo "    bíblia jóhan 1 12 24" >&2
-  echo "            1) Evangeliið eftir Jóhannes		3) Annað bræv Jóhannesar		5) Jóhannesar opinbering" >&2
-  echo "            2) Hitt fyrsta almenna bræv Jóhannesar	4) Triðja bræv Jóhannesar" >&2
-  echo "    Choose a book (enter number): 1" >&2
-  echo "" >&2 
-  echo "Dømir [-l]:" >&2 
-  echo "Lista allar bøkurnar á FØ og EN:" >&2 
-  echo "    bíblia -l" >&2 
-  echo "Lista allar bøkurnar á FØ og EN:" >&2 
-  echo "    bíblia -l pro" >&2 
-  echo "    Orðtøk Sálomons	Proverbs" >&2 
-  echo "" >&2 
-  echo "Dømir [-f]:" >&2 
-  echo "Finn ávís vers:" >&2 
-  echo "    bíblia -f \"Vil nakar ganga aftan á meg\"" >&2 
-  echo "Evangeliið eftir Matteus 16 v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!"
-  echo "" >&2 
-  echo "Dømir [-k]:" >&2  
-  echo "bíblia -k john 3 16 17"
-  echo "1) John"
-  echo "2) 1 John"
-  echo "3) 2 John"
-  echo "4) 3 John"
-  echo "Choose a book (enter number): 1"
-  echo "EN: John"
-  echo "v16 For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."
-  echo "v17 For God sent not his Son into the world to condemn the world; but that the world through him might be saved."
-  echo "" >&2 
-  echo "bíblia liggur í path: "$0
+  # echo "" >&2 
+  # echo "Dømir default:" >&2 
+  # echo "Evangeliið eftir Markus, Kap 3" >&2 
+  # echo "    bíblia mark 3" >&2 
+  # echo "Evangeliið eftir Matteus, Kap 3, Vers 16:" >&2 
+  # echo "    bíblia matt 3 16" >&2 
+  # echo "Evangeliið eftir Lukas, Kap 4, Vers 15 til Vers 19" >&2 
+  # echo "    bíblia luk 4 15 19" >&2 
+  # echo "Sálmarnir, sálmur 108" >&2 
+  # echo "    bíblia sálm 108" >&2 
+  # echo "Evangeliið eftir Jóhannes, Kap 1, Vers 12 til Vers 24" >&2 
+  # echo "    bíblia jóhan 1 12 24" >&2
+  # echo "            1) Evangeliið eftir Jóhannes		3) Annað bræv Jóhannesar		5) Jóhannesar opinbering" >&2
+  # echo "            2) Hitt fyrsta almenna bræv Jóhannesar	4) Triðja bræv Jóhannesar" >&2
+  # echo "    Choose a book (enter number): 1" >&2
+  # echo "" >&2 
+  # echo "Dømir [-l]:" >&2 
+  # echo "Lista allar bøkurnar á FØ og EN:" >&2 
+  # echo "    bíblia -l" >&2 
+  # echo "Lista allar bøkurnar á FØ og EN:" >&2 
+  # echo "    bíblia -l pro" >&2 
+  # echo "    Orðtøk Sálomons	Proverbs" >&2 
+  # echo "" >&2 
+  # echo "Dømir [-f]:" >&2 
+  # echo "Finn ávís vers:" >&2 
+  # echo "    bíblia -f \"Vil nakar ganga aftan á meg\"" >&2 
+  # echo "Evangeliið eftir Matteus 16 v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!"
+  # echo "" >&2 
+  # echo "Dømir [-k]:" >&2  
+  # echo "bíblia -k john 3 16 17"
+  # echo "1) John"
+  # echo "2) 1 John"
+  # echo "3) 2 John"
+  # echo "4) 3 John"
+  # echo "Choose a book (enter number): 1"
+  # echo "EN: John"
+  # echo "v16 For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."
+  # echo "v17 For God sent not his Son into the world to condemn the world; but that the world through him might be saved."
+  # echo "" >&2 
+  # echo "bíblia liggur í path: "$0
 }
 
 # Function to display books in two columns as a table
