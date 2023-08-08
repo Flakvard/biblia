@@ -1,7 +1,9 @@
 #!/bin/bash
 
+# 66 books confirmed
 books=("Fyrsta Mósebók" "Onnur Mósebók" "Triðja Mósebók" "Fjórða Mósebók" "Fimta Mósebók" "Jósvabók" "Dómarabókin" "Rutarbók" "Fyrra Sámuelsbók" "Seinna Sámuelsbók" "Fyrra Kongabók" "Seinna Kongabók" "Fyrra Krýnikubók" "Seinna Krýnikubók" "Ezra" "Nehemia" "Esterarbók" "Jobsbók" "Sálmarnir" "Orðtøk Sálomons" "Prædikarin" "Hásongurin" "Jesaja" "Jeremia" "Harmljóðini" "Ezekiel" "Dánjal" "Hósea" "Jóel" "Ámos" "Óbadia" "Jónas" "Mika" "Náhum" "Hábakkuk" "Sefanja" "Haggai" "Zakarja" "Málaki" "Evangeliið eftir Matteus" "Evangeliið eftir Markus" "Evangeliið eftir Lukas" "Evangeliið eftir Jóhannes" "Ápostlasøgan" "Bræv Paulusar ápostuls til Rómverja" "Fyrra bræv Paulusar ápostuls til Korintmanna" "Seinna bræv Paulusar ápostuls til Korintmanna" "Bræv Paulusar ápostuls til Galatamanna" "Bræv Paulusar ápostuls til Efesusmanna" "Bræv Paulusar ápostuls til Filippimanna" "Bræv Paulusar ápostuls til Kolossumanna" "Fyrra bræv Paulusar ápostuls til Tessalónikumanna" "Seinna bræv Paulusar ápostuls til Tessalónikumanna" "Fyrra bræv Paulusar ápostuls til Timoteusar" "Seinna bræv Paulusar ápostuls til Timoteusar" "Bræv Paulusar ápostuls til Titusar" "Bræv Paulusar ápostuls til Filemons" "Brævið til Hebreara" "Hitt almenna bræv Jákups" "Hitt fyrra almenna bræv Pæturs" "Hitt seinna almenna bræv Pæturs" "Hitt fyrsta almenna bræv Jóhannesar" "Annað bræv Jóhannesar" "Triðja bræv Jóhannesar" "Hitt almenna bræv Judasar" "Jóhannesar opinbering")
 
+# 66 books confirmed
 enBooks=("Genesis" "Exodus" "Leviticus" "Numbers" "Deuteronomy" "Joshua" "Judges" "Ruth" "1 Samuel" "2 Samuel" "1 Kings" "2 Kings" "1 Chronicles" "2 Chronicles" "Ezra" "Nehemiah" "Esther" "Job" "Psalms" "Proverbs" "Ecclesiastes" "Song of Solomon" "Isaiah" "Jeremiah" "Lamentations" "Ezekiel" "Daniel" "Hosea" "Joel" "Amos" "Obadiah" "Jonah" "Micah" "Nahum" "Habakkuk" "Zephaniah" "Haggai" "Zechariah" "Malachi" "Matthew" "Mark" "Luke" "John" "Acts" "Romans" "1 Corinthians" "2 Corinthians" "Galatians" "Ephesians" "Philippians" "Colossians" "1 Thessalonians" "2 Thessalonians" "1 Timothy" "2 Timothy" "Titus" "Philemon" "Hebrews" "James" "1 Peter" "2 Peter" "1 John" "2 John" "3 John" "Jude" "Revelation")
 
 function display_usage() {
@@ -63,8 +65,17 @@ function display_books() {
   for ((i = 0; i < num_books; i+=num_columns)); do
     local faroese=${books[i]}
     local english=${enBooks[i]}
-    printf "%s\t%s\n" "$faroese" "    $english"
-  done | column -t -s $'\t' -o ' | ' -c $((col_width * 2 + 3))
+    printf "%s\t%s\n" "$faroese" "$english"
+
+    # Check if there's a second column
+    local second_column_index=$((i + 1))
+    if [ "$second_column_index" -lt "$num_books" ]; then
+      local faroese=${books[second_column_index]}
+      local english=${enBooks[second_column_index]}
+      
+      printf "%s\t%s\n" "$faroese" "$english"
+    fi
+  done    | column -t -s $'\t' -o ' | ' -c $((col_width * 2 + 3))
 }
 
 # Function to search for verses based on a given search string
