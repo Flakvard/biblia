@@ -20,6 +20,8 @@ function display_usage() {
   echo "    -l    Lista av øllum bøkrunum"
   echo "    -f    Finn ein setning ella ord í bíbluni, kjv og Dahl"
   echo "    -k    Leita í King James Version"
+  echo "    -s    Samanber KJV við Dahl"
+  echo "    -a    Leita í Apokrýfisku bókunum"
   # echo "" >&2 
   # echo "Dømir default:" >&2 
   # echo "Evangeliið eftir Markus, Kap 3" >&2 
@@ -164,14 +166,16 @@ listSearch=0
 findBook=0
 kjv=0
 showAll=0
+aprocry=0
 
-while getopts "elfka" opt; do
+while getopts "elfksa" opt; do
   case $opt in
     e ) use_english_books=true   ;;
     l ) listSearch=1             ;;
     f ) findBook=1               ;;
     k ) kjv=1                    ;;
-    a ) showAll=1                ;;
+    s ) showAll=1                ;;
+    a ) aprocry=1                ;;
   esac
 done
 shift $(($OPTIND - 1))
@@ -262,7 +266,7 @@ if "$use_english_books" ; then
 fi
 
 # Start searching the books and -f option is turned off
-if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] ; then
+if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] && [[ $aprocry -eq 0 ]] ; then
 
   if [ $kjv -eq 1 ] && "$use_english_books" ; then
     search_term=$chosen_book
@@ -396,6 +400,90 @@ if [[ kjv -eq 1 ]] || [ $showAll -eq 1 ]; then
       print "v"$5" "$6; found=1
     } 
     END { if (!found) print "einki vers funnid"}' kjv.txt
+  fi
+  if [ $# -gt 4 ] ; then
+    echo "Ov nógv arugmentir, kann ikki meira enn 4"
+    echo "bíblia [-elf] [bók] [kap] [vers1] [vers2]"
+  fi
+fi
+
+if [[ aprocry -eq 1 ]] ; then
+  # Create an array to store matches
+  matching_books=()
+  num_matches=0
+
+  if [ "$num_matches" -eq 0 ]; then
+  # Check for matches and add them to the array
+    for book in "${apocryphaBooks[@]}"; do
+      if echo "$book" | grep -Fiq "$search_term"; then
+          matching_books+=("$book")
+      fi
+    done
+  fi
+
+  # Check the number of matches
+  num_matches="${#matching_books[@]}"
+
+  # If there are no matches, exit
+  if [ "$num_matches" -eq 0 ]; then
+    echo "No matches found for '$search_term'."
+    exit 1
+  fi
+
+  # If there is only one match, store it in the variable directly
+  if [ "$num_matches" -eq 1 ]; then
+    chosen_book="${matching_books[0]}"
+  else
+    # If there are multiple matches, prompt the user to choose one
+    chosen_book=$(select_book_from_list "${matching_books[@]}")      
+  fi
+
+  # chosen_book=$1
+  # echo "Hello kjv"
+  # echo "Nummar \$1 : "$1
+  # echo "Nummar \$2 : "$2
+  # echo "Nummar \$3 : "$3
+  # echo "Nummar \$4 : "$4
+  # echo "Nummar \$5 : "$5
+  # echo "chosen book "$chosen_book 
+  # echo "chosen chapt "$chapter 
+  # echo "chosen verse "$verse 
+  # echo "chosen verse2 "$verse2 
+  # echo $# " hvørji args eru sett"
+  # Use awk to extract the text for the given chapter and verse from the bible.txt file
+  if [ $# -eq 4 ] ; then
+    # prints book, chapter and specific verse to another verse
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="$verse" -v vrs2="$verse2" '
+    function strip_v(verse) {
+      sub(/^v/, "", verse)
+      return verse
+    }
+    $1 == book && $3 == chap && strip_v($4) >= strip_v(vrs1) && strip_v($4) <= strip_v(vrs2) {
+      verse = strip_v($4)
+      print "v"$4" "$5
+      found=1
+    }
+    END { if (!found) print "einki vers funnid" }
+    ' apoc.txt
+  fi
+
+  if [ $# -eq 3 ] ; then
+    # prints book, chapter and specifik verse
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="$verse" '
+    $1 == book && $3 == chap && $4 == vrs {
+      print "v"$4" "$5; found=1
+    } 
+    END { if (!found) print "einki vers funnid"}' apoc.txt
+    #awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $4 == chap && $5 == vrs {print $5" "$6}' kjv.txt
+  fi
+
+  if [ $# -eq 2 ] ; then
+    # prints book and specifik chapter 
+    awk -F '\t' -v book="$chosen_book" -v chap="$chapter" '
+    $1 == book && $3 == chap {
+      print "v"$4" "$5; found=1
+    } 
+    END { if (!found) print "einki vers funnid"}' apoc.txt
   fi
   if [ $# -gt 4 ] ; then
     echo "Ov nógv arugmentir, kann ikki meira enn 4"

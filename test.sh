@@ -269,12 +269,12 @@ test_kjf_f_option_search_verse
 
 
 #########################################################################
-######################## bíblia -a ######################################
+######################## bíblia -s ######################################
 #########################################################################
-function test_a_option_search_verse(){
-local result=$(bíblia -a matt 15 8)
+function test_s_option_search_verse(){
+local result=$(bíblia -s matt 15 8)
 local expected
-local command="bíblia -a matt 15 8"
+local command="bíblia -s matt 15 8"
 read -r -d '' expected <<- EOF
 v8 «Hetta fólkið ærir meg við vørrunum; men hjarta teirra er langt burtur frá mær.
 
@@ -283,17 +283,17 @@ v8 This people draweth nigh unto me with their mouth, and honoureth me with thei
 EOF
 assertEQ "$result" "$expected" "$command"
 }
-test_a_option_search_verse
+test_s_option_search_verse
 
 
 
 #########################################################################
-######################## bíblia -a ######################################
+######################## bíblia -s ######################################
 #########################################################################
-function test_a_option_search_verse_to_verse(){
-local result=$(bíblia -a matt 16 24 27)
+function test_s_option_search_verse_to_verse(){
+local result=$(bíblia -s matt 16 24 27)
 local expected
-local command="bíblia -a matt 16 24 27"
+local command="bíblia -s matt 16 24 27"
 read -r -d '' expected <<- EOF
 v24 Tá segði Jesus við lærusveinar sínar: «Vil nakar ganga aftan á meg, tá avnokti hann sjálvan seg og taki upp kross sín og fylgi mær!
 v25 Tí at tann, ið vil bjarga lívi sínum, skal missa tað; men tann, ið missir lív sítt fyri mínar sakir, skal finna tað.
@@ -308,15 +308,15 @@ v27 For the Son of man shall come in the glory of his Father with his angels; an
 EOF
 assertEQ "$result" "$expected" "$command"
 }
-test_a_option_search_verse_to_verse
+test_s_option_search_verse_to_verse
 
 #########################################################################
-######################## bíblia -ae ######################################
+######################## bíblia -se ######################################
 #########################################################################
-function test_a_option_with_e_option(){
-local result=$(bíblia -ae "1 John" 3 16)
+function test_s_option_with_e_option(){
+local result=$(bíblia -se "1 John" 3 16)
 local expected
-local command="bíblia -ae \"1 John\" 3 16"
+local command="bíblia -se \"1 John\" 3 16"
 read -r -d '' expected <<- EOF
 EN: 1 John
 FO: Hitt fyrsta almenna bræv Jóhannesar
@@ -327,4 +327,20 @@ v16 Hereby perceive we the love of God, because he laid down his life for us: an
 EOF
 assertEQ "$result" "$expected" "$command"
 }
-test_a_option_with_e_option
+test_s_option_with_e_option
+
+#########################################################################
+######################## bíblia -a ######################################
+#########################################################################
+function test_a_option(){
+local result=$(bíblia -a ecc 3 20)
+local expected
+local command="bíblia -a ecc 3 20"
+read -r -d '' expected <<- EOF
+v20 For the power of the Lord is great, and he is honoured of thelowly.
+EOF
+assertEQ "$result" "$expected" "$command"
+echo "$result"
+echo "$expected"
+}
+test_a_option
