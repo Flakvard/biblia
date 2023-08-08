@@ -116,39 +116,72 @@ local result=$(bíblia -l)
 local expected
 local command="bíblia -l"
 read -r -d '' expected <<- EOF
-Fyrsta Mósebók                                     |     Genesis
-Triðja Mósebók                                     |     Leviticus
-Fimta Mósebók                                      |     Deuteronomy
-Dómarabókin                                        |     Judges
-Fyrra Sámuelsbók                                   |     1 Samuel
-Fyrra Kongabók                                     |     1 Kings
-Fyrra Krýnikubók                                   |     1 Chronicles
-Ezra                                               |     Ezra
-Esterarbók                                         |     Esther
-Sálmarnir                                          |     Psalms
-Prædikarin                                         |     Ecclesiastes
-Jesaja                                             |     Isaiah
-Harmljóðini                                        |     Lamentations
-Dánjal                                             |     Daniel
-Jóel                                               |     Joel
-Óbadia                                             |     Obadiah
-Mika                                               |     Micah
-Hábakkuk                                           |     Habakkuk
-Haggai                                             |     Haggai
-Málaki                                             |     Malachi
-Evangeliið eftir Markus                            |     Mark
-Evangeliið eftir Jóhannes                          |     John
-Bræv Paulusar ápostuls til Rómverja                |     Romans
-Seinna bræv Paulusar ápostuls til Korintmanna      |     2 Corinthians
-Bræv Paulusar ápostuls til Efesusmanna             |     Ephesians
-Bræv Paulusar ápostuls til Kolossumanna            |     Colossians
-Seinna bræv Paulusar ápostuls til Tessalónikumanna |     2 Thessalonians
-Seinna bræv Paulusar ápostuls til Timoteusar       |     2 Timothy
-Bræv Paulusar ápostuls til Filemons                |     Philemon
-Hitt almenna bræv Jákups                           |     James
-Hitt seinna almenna bræv Pæturs                    |     2 Peter
-Annað bræv Jóhannesar                              |     2 John
-Hitt almenna bræv Judasar                          |     Jude
+Fyrsta Mósebók                                     | Genesis
+Onnur Mósebók                                      | Exodus
+Triðja Mósebók                                     | Leviticus
+Fjórða Mósebók                                     | Numbers
+Fimta Mósebók                                      | Deuteronomy
+Jósvabók                                           | Joshua
+Dómarabókin                                        | Judges
+Rutarbók                                           | Ruth
+Fyrra Sámuelsbók                                   | 1 Samuel
+Seinna Sámuelsbók                                  | 2 Samuel
+Fyrra Kongabók                                     | 1 Kings
+Seinna Kongabók                                    | 2 Kings
+Fyrra Krýnikubók                                   | 1 Chronicles
+Seinna Krýnikubók                                  | 2 Chronicles
+Ezra                                               | Ezra
+Nehemia                                            | Nehemiah
+Esterarbók                                         | Esther
+Jobsbók                                            | Job
+Sálmarnir                                          | Psalms
+Orðtøk Sálomons                                    | Proverbs
+Prædikarin                                         | Ecclesiastes
+Hásongurin                                         | Song of Solomon
+Jesaja                                             | Isaiah
+Jeremia                                            | Jeremiah
+Harmljóðini                                        | Lamentations
+Ezekiel                                            | Ezekiel
+Dánjal                                             | Daniel
+Hósea                                              | Hosea
+Jóel                                               | Joel
+Ámos                                               | Amos
+Óbadia                                             | Obadiah
+Jónas                                              | Jonah
+Mika                                               | Micah
+Náhum                                              | Nahum
+Hábakkuk                                           | Habakkuk
+Sefanja                                            | Zephaniah
+Haggai                                             | Haggai
+Zakarja                                            | Zechariah
+Málaki                                             | Malachi
+Evangeliið eftir Matteus                           | Matthew
+Evangeliið eftir Markus                            | Mark
+Evangeliið eftir Lukas                             | Luke
+Evangeliið eftir Jóhannes                          | John
+Ápostlasøgan                                       | Acts
+Bræv Paulusar ápostuls til Rómverja                | Romans
+Fyrra bræv Paulusar ápostuls til Korintmanna       | 1 Corinthians
+Seinna bræv Paulusar ápostuls til Korintmanna      | 2 Corinthians
+Bræv Paulusar ápostuls til Galatamanna             | Galatians
+Bræv Paulusar ápostuls til Efesusmanna             | Ephesians
+Bræv Paulusar ápostuls til Filippimanna            | Philippians
+Bræv Paulusar ápostuls til Kolossumanna            | Colossians
+Fyrra bræv Paulusar ápostuls til Tessalónikumanna  | 1 Thessalonians
+Seinna bræv Paulusar ápostuls til Tessalónikumanna | 2 Thessalonians
+Fyrra bræv Paulusar ápostuls til Timoteusar        | 1 Timothy
+Seinna bræv Paulusar ápostuls til Timoteusar       | 2 Timothy
+Bræv Paulusar ápostuls til Titusar                 | Titus
+Bræv Paulusar ápostuls til Filemons                | Philemon
+Brævið til Hebreara                                | Hebrews
+Hitt almenna bræv Jákups                           | James
+Hitt fyrra almenna bræv Pæturs                     | 1 Peter
+Hitt seinna almenna bræv Pæturs                    | 2 Peter
+Hitt fyrsta almenna bræv Jóhannesar                | 1 John
+Annað bræv Jóhannesar                              | 2 John
+Triðja bræv Jóhannesar                             | 3 John
+Hitt almenna bræv Judasar                          | Jude
+Jóhannesar opinbering                              | Revelation
 EOF
 assertEQ "$result" "$expected" "$command"
 }
