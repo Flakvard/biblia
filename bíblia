@@ -11,6 +11,8 @@ enBooks=("Genesis" "Exodus" "Leviticus" "Numbers" "Deuteronomy" "Joshua" "Judges
 
 apocryphaBooks=("The First Book of Esdras" "The Second book of Esdras" "The Greek Addition to Esther" "The First Book of The Maccabees" "The Second Book of the Maccabees" "The Book of Tobit" "The Book of Judith" "The Wisdom of Solomon" "The Book of Sirach (or Ecclesiasticus)" "The Book of Baruch" "The Epistle (or letter) of Jeremiah (Jeremy)" "The Book of Susanna (in Daniel)" "The Prayer of Azariah" "The Prayer of Manasseh King of Judah" "The Book of Bel and the Dragon (in Daniel)")
 
+FOapocryphaBooks=("Lagt aftur at Esterarbók fyrra" "Lagt aftur at Esterarbók seinna" "?" "Fyrru Makkabearabók" "Seinnu Makkabearabók" "Tobitsbók" "Juditarbók" "Vísdóm Sálomons" "Sírak" "Báruksbók" "Brævið frá Jeremia" "Súsanna (Dánjalsbók)" "Bøn Ázarja" "Bønina hjá Manasse" "Bel í Bábylon, Drekin í Bábylon (Dánjalsbók)")
+
 
 function display_usage() {
   echo "Usage: bíblia [-e] [-l] [-f] <bók> <kap> <vers> <vers>" >&2 
@@ -66,6 +68,8 @@ function display_usage() {
 
 # Function to display books in two columns as a table
 function display_books() {
+  #local -n books=$1
+  #local -n enBooks=$2
   local num_books=${#books[@]}
   local num_columns=2
   local col_width=40
@@ -188,7 +192,7 @@ verse2="$4"        # Use the fourth argument as the verse number
 
 
 # Check if the -l option is provided
-if [ $listSearch -eq 1 ] ; then
+if [ $listSearch -eq 1 ] && [ $aprocry -eq 0 ] ; then
   if [ -n "$1" ]; then
     # If search term is provided, iterate through both book arrays and grep approximate book names
     search_term=$(echo "$1" | tr '[:upper:]' '[:lower:]')
@@ -203,6 +207,43 @@ if [ $listSearch -eq 1 ] ; then
     # If no search term is provided, display all books in two columns
     display_books
   fi
+fi
+
+
+# Check if the -l option is provided
+if [ $listSearch -eq 1 ] && [ $aprocry -eq 1 ] ; then
+  if [ -n "$1" ]; then
+    # If search term is provided, iterate through both book arrays and grep approximate book names
+    search_term=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+    for ((i = 0; i < ${#books[@]}; i++)); do
+      faroese=${FOapocryphaBooks[i]}
+      english=${apocryphaBooks[i]}
+      if [[ "$(echo $faroese | tr '[:upper:]' '[:lower:]')" =~ "$search_term" ]] || [[ "$(echo $english | tr '[:upper:]' '[:lower:]')" =~ "$search_term" ]]; then
+        printf "%s\t%s\n" "$faroese" "    $english"
+      fi
+    done | column -t -s $'\t' -o ' | ' -c $((col_width * 2 + 3))
+  else
+    # If no search term is provided, display all books in two columns
+    num_books=${#apocryphaBooks[@]}
+    num_columns=2
+    col_width=40
+
+    for ((i = 0; i < num_books; i+=num_columns)); do
+      faroese=${FOapocryphaBooks[i]}
+      english=${apocryphaBooks[i]}
+      printf "%s\t%s\n" "$faroese" "$english"
+
+      # Check if there's a second column
+      second_column_index=$((i + 1))
+      if [ "$second_column_index" -lt "$num_books" ]; then
+        faroese=${FOapocryphaBooks[second_column_index]}
+        english=${apocryphaBooks[second_column_index]}
+        
+        printf "%s\t%s\n" "$faroese" "$english"
+      fi
+    done    | column -t -s $'\t' -o ' | ' -c $((col_width * 2 + 3))
+  fi
+  exit 1
 fi
 
 # Check if the -f option is provided to search for a specific string
