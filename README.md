@@ -8,7 +8,8 @@ bíblia [-e][-l][-f][-k][-a] <bók/leitorðið> <kap> <vers>
     [-l] <lista/leita bøkurnar FØ/EN>
     [-f] <Finn vers/orð>
     [-k] <kjv týðing>
-    [-a] <vís alt, Dahl+kjv>
+    [-s] <vís alt, Dahl+kjv>
+    [-a] <Apokrýfisku bøkurnar, kjv týðing>
 ```
 ### Vanligur brúksháttur
 ```bash
