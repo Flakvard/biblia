@@ -93,12 +93,12 @@ function display_books() {
 # Function to search for verses based on a given search string
 function search_verses() {
   local search_string="$1"
-  awk -F '\t' -v search="$search_string" '$4 ~ search {print $1" "$2" "$3" "$4}' biblia.txt
+  awk -F '\t' -v search="$search_string" '$4 ~ search {print $1" "$2" "$3" "$4}' biblia.tsv
 }
 
 function search_kjv_verses() {
   local search_string="$1"
-  awk -F '\t' -v search="$search_string" '$6 ~ search {print $1" "$4" v"$5" "$6}' kjv.txt
+  awk -F '\t' -v search="$search_string" '$6 ~ search {print $1" "$4" v"$5" "$6}' kjv.tsv
 }
 
 # Function to select a book from the list of matching books
@@ -340,7 +340,7 @@ if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] && [[ $apro
   fi
 
   if [ $kjv -eq 0 ] ; then
-    # Use awk to extract the text for the given chapter and verse from the bible.txt file
+    # Use awk to extract the text for the given chapter and verse from the bible.tsv file
     if [ $# -eq 4 ] ; then
       # prints book, chapter and specific verse to another verse
       awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="v$verse" -v vrs2="v$verse2" '
@@ -354,7 +354,7 @@ if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] && [[ $apro
         found=1
       }
       END { if (!found) print "einki vers funnid" }
-      ' biblia.txt
+      ' biblia.tsv
     fi
 
     if [ $# -eq 3 ] ; then
@@ -363,7 +363,7 @@ if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] && [[ $apro
       $1 == book && $2 == chap && $3 == vrs {
         print $3" "$4; found=1
       } 
-      END { if (!found) print "einki vers funnid"}' biblia.txt
+      END { if (!found) print "einki vers funnid"}' biblia.tsv
     fi
 
     if [ $# -eq 2 ] ; then
@@ -372,7 +372,7 @@ if [ ! -z "$1" ] && [[ $findBook -eq 0 ]] && [[ $listSearch -eq 0 ]] && [[ $apro
       $1 == book && $2 == chap {
         print $3" "$4; found=1
       } 
-      END { if (!found) print "einki vers funnid"}' biblia.txt
+      END { if (!found) print "einki vers funnid"}' biblia.tsv
     fi
     if [ $# -gt 4 ] ; then
       echo "Ov nógv arugmentir, kann ikki meira enn 4"
@@ -407,7 +407,7 @@ if [[ kjv -eq 1 ]] || [ $showAll -eq 1 ]; then
   # echo "chosen verse "$verse 
   # echo "chosen verse2 "$verse2 
   # echo $# " hvørji args eru sett"
-  # Use awk to extract the text for the given chapter and verse from the bible.txt file
+  # Use awk to extract the text for the given chapter and verse from the bible.tsv file
   if [ $# -eq 4 ] ; then
     # prints book, chapter and specific verse to another verse
     awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="$verse" -v vrs2="$verse2" '
@@ -421,7 +421,7 @@ if [[ kjv -eq 1 ]] || [ $showAll -eq 1 ]; then
       found=1
     }
     END { if (!found) print "einki vers funnid" }
-    ' kjv.txt
+    ' kjv.tsv
   fi
 
   if [ $# -eq 3 ] ; then
@@ -430,8 +430,8 @@ if [[ kjv -eq 1 ]] || [ $showAll -eq 1 ]; then
     $1 == book && $4 == chap && $5 == vrs {
       print "v"$5" "$6; found=1
     } 
-    END { if (!found) print "einki vers funnid"}' kjv.txt
-    #awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $4 == chap && $5 == vrs {print $5" "$6}' kjv.txt
+    END { if (!found) print "einki vers funnid"}' kjv.tsv
+    #awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $4 == chap && $5 == vrs {print $5" "$6}' kjv.tsv
   fi
 
   if [ $# -eq 2 ] ; then
@@ -440,7 +440,7 @@ if [[ kjv -eq 1 ]] || [ $showAll -eq 1 ]; then
     $1 == book && $4 == chap {
       print "v"$5" "$6; found=1
     } 
-    END { if (!found) print "einki vers funnid"}' kjv.txt
+    END { if (!found) print "einki vers funnid"}' kjv.tsv
   fi
   if [ $# -gt 4 ] ; then
     echo "Ov nógv arugmentir, kann ikki meira enn 4"
@@ -491,7 +491,7 @@ if [[ aprocry -eq 1 ]] ; then
   # echo "chosen verse "$verse 
   # echo "chosen verse2 "$verse2 
   # echo $# " hvørji args eru sett"
-  # Use awk to extract the text for the given chapter and verse from the bible.txt file
+  # Use awk to extract the text for the given chapter and verse from the bible.tsv file
   if [ $# -eq 4 ] ; then
     # prints book, chapter and specific verse to another verse
     awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs1="$verse" -v vrs2="$verse2" '
@@ -505,7 +505,7 @@ if [[ aprocry -eq 1 ]] ; then
       found=1
     }
     END { if (!found) print "einki vers funnid" }
-    ' apoc.txt
+    ' apoc.tsv
   fi
 
   if [ $# -eq 3 ] ; then
@@ -514,8 +514,8 @@ if [[ aprocry -eq 1 ]] ; then
     $1 == book && $3 == chap && $4 == vrs {
       print "v"$4" "$5; found=1
     } 
-    END { if (!found) print "einki vers funnid"}' apoc.txt
-    #awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $4 == chap && $5 == vrs {print $5" "$6}' kjv.txt
+    END { if (!found) print "einki vers funnid"}' apoc.tsv
+    #awk -F '\t' -v book="$chosen_book" -v chap="$chapter" -v vrs="v$verse" '$1 == book && $4 == chap && $5 == vrs {print $5" "$6}' kjv.tsv
   fi
 
   if [ $# -eq 2 ] ; then
@@ -524,7 +524,7 @@ if [[ aprocry -eq 1 ]] ; then
     $1 == book && $3 == chap {
       print "v"$4" "$5; found=1
     } 
-    END { if (!found) print "einki vers funnid"}' apoc.txt
+    END { if (!found) print "einki vers funnid"}' apoc.tsv
   fi
   if [ $# -gt 4 ] ; then
     echo "Ov nógv arugmentir, kann ikki meira enn 4"
