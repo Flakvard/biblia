@@ -1,5 +1,6 @@
 # Bíblia - Les halgabók
 Les heilagu skriftirnar á terminalin Jákup Dahl týðing.
+Samanber við King James týðing og Apokrýfurnar
 
 ## Brúksháttur: 
 ```bash
@@ -27,6 +28,8 @@ bíblia -e [bók] [kap] [vers] [vers] # finn ensku 'bókina', 'kap' og vís 'ver
 ```bash
 bíblia -l # Lista allar bøkurnar, bæði føroysku og ensku bøkurnar
 bíblia -l [bók] # Leita gjøgnum allar listaða bøkurnar, bæði føroysku og ensku bøkurnar
+bíblia -la # Lista allar apokrýfisku bøkurnar
+bíblia -la [bók] # Leita gjøgnum allar listaða apokrýfisku bøkurnar
 ```
 ### Finn eitt vers ella har eitt orð gongur fram í bíbluni
 ```bash
@@ -39,6 +42,19 @@ bíblia -k [bók] [kap] [vers] # finn fø 'bókina', 'kap' og vís eitt ávíst 
 bíblia -k [bók] [kap] [vers] [vers] # finn fø 'bókina', 'kap' og vís 'vers1' til 'vers2' í KJV
 bíblia -ke [bók] [kap] [vers] [vers] # finn fø 'bókina', 'kap' og vís 'vers1' til 'vers2' í KJV
 bíblia -kf "Leiti orð" # Leita gjøgnum øll versini í bíbluni
+```
+### Leita í Apokrýfurnar í King James týðing
+```bash
+bíblia -a [bók] [kap] # finn fø 'bókina' og vís 'kapitulin' í KJV
+bíblia -a [bók] [kap] [vers] # finn fø 'bókina', 'kap' og vís eitt ávíst 'vers' í KJV
+bíblia -a [bók] [kap] [vers] [vers] # finn fø 'bókina', 'kap' og vís 'vers1' til 'vers2' í KJV
+bíblia -af "Leiti orð" # Leita gjøgnum øll versini í bíbluni
+```
+### Samanber Dahls týðing og KJV
+```bash
+bíblia -s [bók] [kap] # finn 'bókina' og vís allan 'kapitulin' á føroyskum og enskum
+bíblia -s [bók] [kap] [vers] # finn 'bókina', 'kap' og vís eitt ávíst 'vers' á føroyskum og enskum
+bíblia -s [bók] [kap] [vers] [vers] # finn 'bókina', 'kap' og vís 'vers1' til 'vers2' á føroyskum og enskum
 ```
 ## Dømi 1, vís ein heilan kap:
 ```
