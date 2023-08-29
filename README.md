@@ -8,9 +8,9 @@ bíblia [-e][-l][-f][-k][-a] <bók/leitorðið> <kap> <vers>
     [-e] <Enskubøkurnar> <kap> <vers>
     [-l] <lista/leita bøkurnar FØ/EN>
     [-f] <Finn vers/orð>
-    [-k] <kjv týðing>
-    [-s] <vís alt, Dahl+kjv>
-    [-a] <Apokrýfisku bøkurnar, kjv týðing>
+    [-k] <King James Version>
+    [-s] <Samanber, Dahl við KJV>
+    [-a] <Apokrýfisku bøkurnar, KJV týðing>
 ```
 ### Vanligur brúksháttur
 ```bash
